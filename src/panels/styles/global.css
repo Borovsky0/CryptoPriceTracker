@@ -1,55 +1,97 @@
-.App {
-    min-height: 100vh;
-    height: auto;
+:root {
+    /* env safe area необходимы для отделения приложения от статус и навигейшн баров на iOS, на Android и ПК переменные равны 0 */
+    --iOStop: env(safe-area-inset-top);
+    --iOSbottom: env(safe-area-inset-bottom);
+}
+
+.grid {
+    display: grid;
+    grid-template-rows: var(--iOStop) 1fr 13fr 1fr var(--iOSbottom);
+    height: 100vh;
+}
+
+.top {
+    display: flex;
+    background-color: #2100fb;
+}
+
+.body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    padding: 40px;
     font-size: 16px;
     background-color: #000;
+    overflow-y: scroll;
 }
- 
+
+.bottom {
+    display: flex;
+    background-color: #00fb08;
+}
+
+.statusBar,
+.navigationBar {
+    background-color: #fb8a00;
+}
+
+.info {
+    background-color: firebrick;
+    display: grid;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "rank logo symbol"
+        "rank logo cap";
+}
+
+.rank {
+    grid-area: rank;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    grid-area: logo;
+    align-items: center;
+    display: flex;
+}
+
+.symbol {
+    grid-area: symbol;
+    text-align: left;
+}
+
+.cap {
+    grid-area: cap;
+    text-align: left;
+}
+
+
 h1 {
     color: forestgreen;
 }
- 
+
 input {
     padding-left: 5px;
     font-size: 20px;
     width: 250px;
     height: 30px;
 }
- 
+
 table {
     width: 70vw;
     border-collapse: separate;
     border-spacing: 0 1em;
 }
- 
+
 thead {
     background-color: rgb(44, 44, 44);
     color: white;
     text-align: center;
 }
- 
+
 tbody>tr {
     text-align: right;
-}
- 
-.rank {
-    text-align: center;
-    font-weight: bold;
-}
- 
-.logo {
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 10%;
-    gap: 10px;
-    align-items: center;
-}
- 
-.symbol {
-    text-align: center;
 }

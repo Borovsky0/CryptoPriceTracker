@@ -15,46 +15,57 @@ function Home() {
     });
   }, []);
 
+  function convertToInternationalCurrencySystem (labelValue) {
+
+    // Nine Zeroes for Billions
+    return Math.abs(Number(labelValue)) >= 1.0e+9
+
+    ? (Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2) + "B"
+    // Six Zeroes for Millions 
+    : Math.abs(Number(labelValue)) >= 1.0e+6
+
+    ? (Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2) + "M"
+    // Three Zeroes for Thousands
+    : Math.abs(Number(labelValue)) >= 1.0e+3
+
+    ? (Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2) + "K"
+
+    : Math.abs(Number(labelValue));
+
+}
+
   // Define the columns for your table
   const columns = React.useMemo(
     () => [
       {
-        Header: "Rank",
-        accessor: "rank",
-      },
-      {
-        Header: "Name",
-        accessor: "name",
+        Header: "Market Cap",
+        accessor: "marketCap",
         Cell: ({ row }) => (
-          <div className="logo">
-            <a href={row.original.websiteUrl}>
-              <img src={row.original.icon} alt="logo" width="30px" />
-            </a>
-            <p>{row.original.name}</p>
+          <div className="info">
+            <div className="rank">
+            <p>{row.original.rank}</p>
+            </div>
+            <div className="logo">
+              <img src={row.original.icon} alt="logo" width="32px" />
+            </div>
+            <div className="symbol">
+              <p>{row.original.symbol}</p>
+            </div>
+            <div className="cap">
+              <p>{convertToInternationalCurrencySystem(row.original.marketCap)}</p>
+            </div>
           </div>
         ),
       },
       {
-        Header: "Symbol",
-        accessor: "symbol",
-      },
-      {
-        Header: "Market Cap",
-        accessor: "marketCap",
-      },
-      {
         Header: "Price",
         accessor: "price",
-        Cell: ({ value }) => `${value.toFixed(4)}$`,
-      },
-      {
-        Header: "Available Supply",
-        accessor: "availableSupply",
+        Cell: ({ value }) => `${(value.toFixed(2))}$`,
       },
       {
         Header: "Volume(24hrs)",
         accessor: "volume",
-        Cell: ({ value }) => `${value.toFixed(0)}$`,
+        Cell: ({ value }) => `${convertToInternationalCurrencySystem(value)}$`,
       },
     ],
     []
@@ -82,7 +93,10 @@ function Home() {
   );
 
   return (
-    <div className="App">
+    <div className="grid">
+      <div className="statusBar"></div>
+      <div className="top"></div>
+      <div className="body">
       <h1>All Cryptocurrencies</h1>
       <input
         type="text"
@@ -122,6 +136,9 @@ function Home() {
           })}
         </tbody>
       </table>
+      </div>
+      <div className="bottom"></div>
+      <div className="navigationBar"></div>
     </div>
   );
 }
