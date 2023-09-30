@@ -38,9 +38,9 @@ function Home() {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Market Cap",
+        header: "Market Cap",
         accessor: "marketCap",
-        Cell: ({ row }) => (
+        cell: ({ row }) => (
           <div className="info">
             <div className="rank">
             <p>{row.original.rank}</p>
@@ -58,14 +58,16 @@ function Home() {
         ),
       },
       {
-        Header: "Price",
+        header: "Price",
         accessor: "price",
-        Cell: ({ value }) => `${(value.toFixed(2))}$`,
+        cell: ({ value }) => `${(value.toFixed(2))}$`,
       },
       {
-        Header: "Volume(24hrs)",
-        accessor: "volume",
-        Cell: ({ value }) => `${convertToInternationalCurrencySystem(value)}$`,
+        header: "24H %",
+        accessor: "priceChange1d",
+        cell: ({ value }) => (
+          <span className={value < 0 ? "red" : "green"}>{`${value}%`}</span>
+        ),
       },
     ],
     []
@@ -95,9 +97,7 @@ function Home() {
   return (
     <div className="grid">
       <div className="statusBar"></div>
-      <div className="top"></div>
-      <div className="body">
-      <h1>All Cryptocurrencies</h1>
+      <div className="top">
       <input
         type="text"
         placeholder="Search..."
@@ -106,15 +106,17 @@ function Home() {
           setSearch(e.target.value);
         }}
       />
+      </div>
+      <div className="body">
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render("Header")}
+                  {column.render("header")}
                   <span>
-                    {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
+                    {column.isSorted ? (column.isSortedDesc ? " ↓" : " ↑") : ""}
                   </span>
                 </th>
               ))}
@@ -128,7 +130,7 @@ function Home() {
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()}>{cell.render("cell")}</td>
                   );
                 })}
               </tr>

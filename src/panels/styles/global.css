@@ -1,18 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+
 :root {
+    --green: #64c864;
+    --red: #f45858;
+    --gray: #999999;
+    --textColor: #FFF;
+    --bgColor: #000;
     /* env safe area необходимы для отделения приложения от статус и навигейшн баров на iOS, на Android и ПК переменные равны 0 */
     --iOStop: env(safe-area-inset-top);
     --iOSbottom: env(safe-area-inset-bottom);
 }
 
+.red, .green {
+    justify-content: center;
+    display: flex;
+}
+
+.red { color: var(--red);}  
+
+.green { color: var(--green);}
+
 .grid {
     display: grid;
     grid-template-rows: var(--iOStop) 1fr 13fr 1fr var(--iOSbottom);
     height: 100vh;
+    font-family: 'Inter', sans-serif;
 }
 
 .top {
     display: flex;
-    background-color: #2100fb;
+    background-color: var(--bgColor);  
+    align-items: center;
 }
 
 .body {
@@ -20,22 +38,23 @@
     flex-direction: column;
     align-items: center;
     font-size: 16px;
-    background-color: #000;
+    background-color: var(--bgColor);
     overflow-y: scroll;
 }
 
 .bottom {
     display: flex;
-    background-color: #00fb08;
+    box-shadow: 0 -0.5px 6px rgba(255, 255, 255, 0.1);
+    background-color: var(--bgColor);
 }
 
 .statusBar,
 .navigationBar {
-    background-color: #fb8a00;
+    background-color: var(--bgColor);
 }
 
 .info {
-    background-color: firebrick;
+    background-color: var(--bgColor);
     display: grid;
     gap: 0px 0px;
     grid-auto-flow: row;
@@ -50,6 +69,7 @@
     justify-content: center;
     display: flex;
     align-items: center;
+    color: var(--gray);
 }
 
 .logo {
@@ -60,38 +80,36 @@
 
 .symbol {
     grid-area: symbol;
+    color: var(--white);
     text-align: left;
 }
 
 .cap {
     grid-area: cap;
     text-align: left;
-}
-
-
-h1 {
-    color: forestgreen;
+    color: var(--gray);
 }
 
 input {
-    padding-left: 5px;
+    margin-left: 1em;
     font-size: 20px;
     width: 250px;
     height: 30px;
 }
 
 table {
-    width: 70vw;
+    width: 100%;
     border-collapse: separate;
-    border-spacing: 0 1em;
+    border-spacing: 0 0em;
 }
 
 thead {
-    background-color: rgb(44, 44, 44);
-    color: white;
+    background-color: var(--bgColor);
+    color: var(--white);
     text-align: center;
 }
 
-tbody>tr {
+tbody > tr {
     text-align: right;
+    line-height: 0.8em;
 }

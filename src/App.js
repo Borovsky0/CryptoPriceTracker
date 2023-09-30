@@ -12,6 +12,12 @@ const App = () => {
 	useEffect(() => {
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
+
+			await bridge.send('VKWebAppSetViewSettings', {
+				status_bar_style: 'dark',
+				action_bar_color: style.getPropertyValue('--bgColor'),
+				navigation_bar_color: style.getPropertyValue('--bgColor')
+				});
 			setUser(user);
 		}
 		fetchData();
