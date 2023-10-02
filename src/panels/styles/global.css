@@ -1,24 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 
 :root {
+    /* Цвета */
     --green: #64c864;
     --red: #f45858;
     --gray: #999999;
     --textColor: #FFF;
     --bgColor: #000;
+    /* Отступы и размеры */
+    --td-padding: 0.75em;
     /* env safe area необходимы для отделения приложения от статус и навигейшн баров на iOS, на Android и ПК переменные равны 0 */
     --iOStop: env(safe-area-inset-top);
     --iOSbottom: env(safe-area-inset-bottom);
 }
 
-.red, .green {
-    justify-content: center;
-    display: flex;
+.red,
+.green {
+    font-size: 14px;
 }
 
-.red { color: var(--red);}  
+.red {
+    color: var(--red);
+}
 
-.green { color: var(--green);}
+.green {
+    color: var(--green);
+}
 
 .grid {
     display: grid;
@@ -29,7 +36,7 @@
 
 .top {
     display: flex;
-    background-color: var(--bgColor);  
+    background-color: var(--bgColor);
     align-items: center;
 }
 
@@ -53,41 +60,14 @@
     background-color: var(--bgColor);
 }
 
-.info {
+table {
+    width: 100%;
     background-color: var(--bgColor);
-    display: grid;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-        "rank logo symbol"
-        "rank logo cap";
 }
 
-.rank {
-    grid-area: rank;
+tr {
     text-align: center;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    color: var(--gray);
-}
-
-.logo {
-    grid-area: logo;
-    align-items: center;
-    display: flex;
-}
-
-.symbol {
-    grid-area: symbol;
-    color: var(--white);
-    text-align: left;
-}
-
-.cap {
-    grid-area: cap;
-    text-align: left;
-    color: var(--gray);
+    font-size: 12px;
 }
 
 input {
@@ -97,19 +77,64 @@ input {
     height: 30px;
 }
 
-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 0em;
+/* td-стиль для обычной ячейки */
+.td-default {
+    padding: var(--td-padding);
+    text-align: end;
 }
 
-thead {
-    background-color: var(--bgColor);
-    color: var(--white);
-    text-align: center;
+/* Ранк */
+.rank {
+    font-size: 12px;
+    color: #808080;
+    white-space: nowrap;
 }
 
-tbody > tr {
-    text-align: right;
-    line-height: 0.8em;
+/* td-стиль для ячейки рыночной капитализации */
+.td-market-cap {
+    padding: var(--td-padding);
+    text-align: start;
+}
+
+/* Содержит в себе лого, краткое название и капитализацию */
+.market-cap-container {
+    -webkit-box-align: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+/* Логотип */
+.logo {
+    display: flex;
+    flex-shrink: 0;
+}
+
+/* Контейнер для краткого названия и капитализации */
+.symbol-and-cap-container {
+    display: flex;
+    flex-direction: column;
+    margin-inline-start: var(--td-padding);
+}
+
+/* Краткое название криптовалюты */
+.symbol {
+    display: flex;
+    color: var(--textColor);
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* Рыночная капитализация */
+.cap {
+    font-size: 12px;
+    color: #808080;
+    white-space: nowrap;
+}
+
+/* Цена */
+.price {
+    font-size: 14px;
+    color: var(--textColor);
 }
