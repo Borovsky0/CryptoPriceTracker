@@ -4,14 +4,24 @@
     /* Цвета */
     --green: #64c864;
     --red: #f45858;
-    --gray: #999999;
-    --textColor: #FFF;
-    --bgColor: #000;
+    --gray: #808080;
+    --black: #000000;
+    --white: #FFFFFF;
     /* Отступы и размеры */
     --td-padding: 0.75em;
     /* env safe area необходимы для отделения приложения от статус и навигейшн баров на iOS, на Android и ПК переменные равны 0 */
     --iOStop: env(safe-area-inset-top);
     --iOSbottom: env(safe-area-inset-bottom);
+}
+
+.light-theme {
+    --textColor: var(--black);
+    --bgColor: var(--white);
+}
+
+.dark-theme {
+    --textColor: var(--white);
+    --bgColor: var(--black);
 }
 
 .red,
@@ -51,7 +61,6 @@
 
 .bottom {
     display: flex;
-    box-shadow: 0 -0.5px 6px rgba(255, 255, 255, 0.1);
     background-color: var(--bgColor);
 }
 
@@ -63,11 +72,22 @@
 table {
     width: 100%;
     background-color: var(--bgColor);
+    border-collapse: separate;
+    border-spacing: 10px;
 }
 
 tr {
     text-align: center;
     font-size: 12px;
+}
+
+thead {
+    color: var(--gray);
+}
+
+.tr-border {
+    border-radius: 12px;
+    outline: 1px solid var(--gray);
 }
 
 input {
@@ -86,7 +106,7 @@ input {
 /* Ранк */
 .rank {
     font-size: 12px;
-    color: #808080;
+    color: var(--gray);
     white-space: nowrap;
 }
 
@@ -129,7 +149,7 @@ input {
 /* Рыночная капитализация */
 .cap {
     font-size: 12px;
-    color: #808080;
+    color: var(--gray);
     white-space: nowrap;
 }
 
