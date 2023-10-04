@@ -50,14 +50,18 @@ function Home() {
     sortTable(key, direction);
   };
 
-  function convertCurrency(value) {
-    return Math.abs(Number(value)) >= 1.0e+9
-      ? (Math.abs(Number(value)) / 1.0e+9).toFixed(2) + "B"
-      : Math.abs(Number(value)) >= 1.0e+6
-        ? (Math.abs(Number(value)) / 1.0e+6).toFixed(2) + "M"
-        : Math.abs(Number(value)) >= 1.0e+3
-          ? (Math.abs(Number(value)) / 1.0e+3).toFixed(2) + "K"
-          : Math.abs(Number(value));
+  const convertToSI = (value) => {
+    return value >= 1.0e+9 ? 
+    (value / 1.0e+9).toFixed(2) + "B" : value >= 1.0e+6 ?
+    (value / 1.0e+6).toFixed(2) + "M" : value >= 1.0e+3 ?
+    (value / 1.0e+3).toFixed(2) + "K" : value;
+  }
+
+  const convertToPrice = (value) => {
+    return value > 1 ? 
+    value.toFixed(2) : value > 0.1 ? 
+    value.toFixed(4) : value > 0.01 ? 
+    value.toFixed(5) : value.toFixed(8);
   }
 
   useEffect(() => {
@@ -111,15 +115,12 @@ function Home() {
                             </div>
                             <div className="symbol-and-cap-container">
                               <p className="symbol">{val.symbol}</p>
-                              <span className="cap">{convertCurrency(val.marketCap)}</span>
+                              <span className="cap">{convertToSI(val.marketCap)}</span>
                             </div>
                           </div>
                         </td>
                         <td className="td-default">
-                          <p className="price">{"$" + (
-                            val.price > 1 ? val.price.toFixed(2) :
-                              val.price > 0.1 ? val.price.toFixed(4) :
-                                val.price > 0.01 ? val.price.toFixed(5) : val.price.toFixed(8))}</p>
+                          <p className="price">{"$" + convertToPrice(val.price)}</p>
                         </td>
                         <td className="td-default">
                           <p className={val.priceChange1d < 0 ? "red" : "green"}>{val.priceChange1d}%</p>
