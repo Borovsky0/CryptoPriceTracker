@@ -59,6 +59,10 @@
     overflow-y: scroll;
 }
 
+.body::-webkit-scrollbar {
+    display: none;
+}
+
 .bottom {
     display: flex;
     background-color: var(--bgColor);
@@ -77,12 +81,14 @@ table {
 }
 
 tr {
-    text-align: center;
     font-size: 12px;
 }
 
 thead {
     color: var(--gray);
+    user-select: none;
+    position: sticky;
+    top: 0;
 }
 
 .tr-border {
@@ -157,4 +163,26 @@ input {
 .price {
     font-size: 14px;
     color: var(--textColor);
+}
+
+/* Контейнер для заголовка и символа сортировки */
+.thead-container {
+    display: grid;
+    height: 16px;
+    grid-template-columns: 2fr 1fr;
+}
+
+/* Стили для заголовка и отображения сортировки при помощи символа треугольника */
+.head-text, .sort-symbol {
+    display: flex;
+    align-items: center;
+    background-color: var(--bgColor);
+}
+
+.head-text {
+    justify-content: flex-end;
+}
+
+.sort-symbol {
+    justify-content: flex-start;
 }
