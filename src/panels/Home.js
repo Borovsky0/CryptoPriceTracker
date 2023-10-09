@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Axios from "axios"
 import "./styles/global.css";
 import bridge from '@vkontakte/vk-bridge';
@@ -8,6 +8,7 @@ function Home() {
   const [crypto, setCrypto] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
   const [theme, setTheme] = useState("dark-theme");
+  const tableRef = useRef(null);
 
   const style = getComputedStyle(document.body);
 
@@ -29,6 +30,14 @@ function Home() {
     });
   }
 
+  // Прокручивает таблицу до верха
+  const scrollToTop = () => {
+    const table = tableRef.current;
+    if (table) {
+      table.scrollIntoView({ behavior: 'smooth' }); 
+    }
+  };
+
   // Сортирует таблицу по возрастанию или убыванию с учетом столбца
   const sortTable = (key, direction) => {
     const sortedCrypto = [...crypto];
@@ -48,6 +57,7 @@ function Home() {
 
   // Обрабатывает событие сортировки при нажатии на заголовок таблицы
   const handleSort = (key) => {
+    scrollToTop();
     const direction = sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
     setSortConfig({ key, direction });
     sortTable(key, direction);
@@ -101,7 +111,7 @@ function Home() {
           />
         </div>
         <div className="body">
-          <table>
+          <table ref={tableRef}>
             <thead>
               <tr>
                 <td onClick={() => handleSort("rank")}>
