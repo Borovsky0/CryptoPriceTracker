@@ -7,10 +7,23 @@ function Home() {
   const [search, setSearch] = useState("");
   const [crypto, setCrypto] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
+  const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1d%' });
   const [theme, setTheme] = useState("dark-theme");
   const tableRef = useRef(null);
-
   const style = getComputedStyle(document.body);
+
+  const updateData = () => {
+    Axios.get(
+      `https://api.coinstats.app/public/v1/coins?skip=0&limit=100¤cy=USD`
+    ).then((res) => {
+      setCrypto(res.data.coins);
+    });
+  };
+
+  useEffect(() => {
+    // Получение данных о криптовалютах через API
+    updateData();
+  }, []);
 
   // Меняет тему с темной на светлую и наоборот
   const changeTheme = () => {
@@ -34,7 +47,7 @@ function Home() {
   const scrollToTop = () => {
     const table = tableRef.current;
     if (table) {
-      table.scrollIntoView({ behavior: 'smooth' }); 
+      table.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -87,15 +100,6 @@ function Home() {
     return "";
   };
 
-  useEffect(() => {
-    // Получение данных о криптовалютах через API
-    Axios.get(
-      `https://api.coinstats.app/public/v1/coins?skip=0&limit=100¤cy=USD`
-    ).then((res) => {
-      setCrypto(res.data.coins);
-    });
-  }, []);
-
   return (
     <div className={theme}>
       <div className="grid">
@@ -132,10 +136,10 @@ function Home() {
                     <span className="sort-symbol">{getSortIcon("price")}</span>
                   </div>
                 </td>
-                <td onClick={() => handleSort("priceChange1d")}>
+                <td onClick={() => handleSort(priceChange.id)}>
                   <div className="thead-container">
-                    <span className="head-text">1d%</span>
-                    <span className="sort-symbol">{getSortIcon("priceChange1d")}</span>
+                    <span className="head-text">{priceChange.text}</span>
+                    <span className="sort-symbol">{getSortIcon(priceChange.id)}</span>
                   </div>
                 </td>
               </tr>
@@ -166,7 +170,7 @@ function Home() {
                         <p className="price">{"$" + convertToPrice(val.price)}</p>
                       </td>
                       <td className="td-default">
-                        <p className={val.priceChange1d < 0 ? "red" : "green"}>{val.priceChange1d}%</p>
+                        <p className={val[priceChange.id] < 0 ? "red" : "green"}>{val[priceChange.id]}%</p>
                       </td>
                     </tr>
                   );
@@ -174,7 +178,31 @@ function Home() {
             </tbody>
           </table>
         </div>
-        <div className="bottom" onClick={() => { changeTheme() }}></div>
+        <div className="bottom">
+          <div className="buttons-container">
+            <button className="button-default" onClick={() => { changeTheme() }}>THEME</button>
+            <button className="button-default" onClick={
+              // Нарушает сортировку при нажатии
+              updateData
+              }>UPDATE</button>
+            <button className="button-default" onClick={() => {
+              // Временно
+              setPriceChange({ id: 'priceChange1h', text: '1h%' });
+              setSortConfig('rank', 'asc');
+              sortTable('rank', 'asc');
+            }}>1H</button>
+            <button className="button-default" onClick={() => {
+              setPriceChange({ id: 'priceChange1d', text: '1d%' });
+              setSortConfig('rank', 'asc');
+              sortTable('rank', 'asc');
+            }}>1D</button>
+            <button className="button-default" onClick={() => {
+              setPriceChange({ id: 'priceChange1w', text: '1w%' });
+              setSortConfig('rank', 'asc');
+              sortTable('rank', 'asc');
+            }}>1W</button>
+          </div>
+        </div>
         <div className="navigationBar"></div>
       </div>
     </div>

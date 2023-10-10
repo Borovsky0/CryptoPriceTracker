@@ -69,6 +69,18 @@
     background-color: var(--bgColor);
 }
 
+.buttons-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.button-default {
+    color: var(--textColor);
+    border: none;
+    background-color: var(--bgColor);
+}
+
 .statusBar,
 .navigationBar {
     background-color: var(--bgColor);
