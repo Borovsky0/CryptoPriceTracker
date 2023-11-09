@@ -16,18 +16,42 @@ function Home() {
     Axios.get(
       `https://api.coinstats.app/public/v1/coins?skip=0&limit=100¤cy=USD`
     ).then((res) => {
-      setCrypto(res.data.coins);
+      // Сортировка данных на основе текущей конфигурации сортировки
+      const sortedData = [...res.data.coins];
+      sortedData.sort((a, b) => {
+        const key = sortConfig.key;
+        const direction = sortConfig.direction === "asc" ? 1 : -1;
+
+        if (a[key] < b[key]) {
+          return -1 * direction;
+        }
+        if (a[key] > b[key]) {
+          return 1 * direction;
+        }
+        return 0;
+      });
+
+      // Обновление состояния с отсортированными данными
+      setCrypto(sortedData);
     });
   };
 
   useEffect(() => {
-    // Получение данных о криптовалютах через API
+    // Получение данных
     updateData();
-  }, []);
+
+    // Установка интервала для получения данных каждые 10 секунд
+    const intervalId = setInterval(() => {
+      updateData();
+    }, 10000);
+
+    // Очистить интервал, когда компонент размонтирован
+    return () => clearInterval(intervalId);
+  }, [sortConfig]); // Включение sortConfig в качестве зависимости для повторной выборки данных при изменении сортировки
 
   // Меняет тему с темной на светлую и наоборот
   const changeTheme = () => {
-    var color = "";
+    let color;
     if (theme === "light-theme") {
       setTheme("dark-theme")
       color = "--black";
