@@ -7,17 +7,24 @@ function Home() {
   const [search, setSearch] = useState("");
   const [crypto, setCrypto] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
-  const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1d%' });
+  const [priceChange, setPriceChange] = useState({ id: 'changePercent24Hr', text: '1d%' });
   const [theme, setTheme] = useState("dark-theme");
   const tableRef = useRef(null);
   const style = getComputedStyle(document.body);
 
   const updateData = () => {
     Axios.get(
-      `https://api.coinstats.app/public/v1/coins?skip=0&limit=100¤cy=USD`
+      `https://api.coincap.io/v2/assets`
     ).then((res) => {
       // Сортировка данных на основе текущей конфигурации сортировки
-      const sortedData = [...res.data.coins];
+      const sortedData = [...res.data.data].map(item => ({
+        ...item,
+        rank: parseInt(item.rank),
+        marketCapUsd: parseFloat(item.marketCapUsd),
+        priceUsd: parseFloat(item.priceUsd),
+        changePercent24Hr: parseFloat(item.changePercent24Hr),
+      }));
+      
       sortedData.sort((a, b) => {
         const key = sortConfig.key;
         const direction = sortConfig.direction === "asc" ? 1 : -1;
@@ -32,6 +39,7 @@ function Home() {
       });
 
       // Обновление состояния с отсортированными данными
+      
       setCrypto(sortedData);
     });
   };
@@ -124,6 +132,10 @@ function Home() {
     return "";
   };
 
+  const missedLogo = () => {
+  return (<div className="empty-logo">{val.symbol}</div>)
+  };
+
   return (
     <div className={theme}>
       <div className="grid">
@@ -148,21 +160,21 @@ function Home() {
                     <span className="sort-symbol">{getSortIcon("rank")}</span>
                   </div>
                 </td>
-                <td onClick={() => handleSort("marketCap")}>
+                <td onClick={() => handleSort("marketCapUsd")}>
                   <div className="thead-container">
                     <span className="head-text">Market Cap</span>
-                    <span className="sort-symbol">{getSortIcon("marketCap")}</span>
+                    <span className="sort-symbol">{getSortIcon("marketCapUsd")}</span>
                   </div>
                 </td>
-                <td onClick={() => handleSort("price")}>
+                <td onClick={() => handleSort("priceUsd")}>
                   <div className="thead-container">
                     <span className="head-text">Price</span>
-                    <span className="sort-symbol">{getSortIcon("price")}</span>
+                    <span className="sort-symbol">{getSortIcon("priceUsd")}</span>
                   </div>
                 </td>
                 <td onClick={() => handleSort(priceChange.id)}>
                   <div className="thead-container">
-                    <span className="head-text">{priceChange.text}</span>
+                    <span className="head-text">1d%</span>
                     <span className="sort-symbol">{getSortIcon(priceChange.id)}</span>
                   </div>
                 </td>
@@ -181,20 +193,21 @@ function Home() {
                       </td>
                       <td className="td-market-cap">
                         <div className="market-cap-container">
+                          
                           <div className="logo">
-                            <img src={val.icon} alt="logo" width={"24px"} />
+                            <img src={`https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/32/${val.id}.png`} alt="" width={"24px"}/>
                           </div>
                           <div className="symbol-and-cap-container">
                             <p className="symbol">{val.symbol}</p>
-                            <span className="cap">{convertToSI(val.marketCap)}</span>
-                          </div>
+                            <span className="cap">{convertToSI(val.marketCapUsd)}</span>
+                          </div>  
                         </div>
                       </td>
                       <td className="td-default">
-                        <p className="price">{"$" + convertToPrice(val.price)}</p>
+                        <p className="price">{"$" + convertToPrice(val.priceUsd)}</p>
                       </td>
                       <td className="td-default">
-                        <p className={val[priceChange.id] < 0 ? "red" : "green"}>{val[priceChange.id]}%</p>
+                        <p className={val[priceChange.id] < 0 ? "red" : "green"}>{val[priceChange.id].toFixed(2)}%</p>
                       </td>
                     </tr>
                   );
@@ -209,22 +222,6 @@ function Home() {
               // Нарушает сортировку при нажатии
               updateData
               }>UPDATE</button>
-            <button className="button-default" onClick={() => {
-              // Временно
-              setPriceChange({ id: 'priceChange1h', text: '1h%' });
-              setSortConfig('rank', 'asc');
-              sortTable('rank', 'asc');
-            }}>1H</button>
-            <button className="button-default" onClick={() => {
-              setPriceChange({ id: 'priceChange1d', text: '1d%' });
-              setSortConfig('rank', 'asc');
-              sortTable('rank', 'asc');
-            }}>1D</button>
-            <button className="button-default" onClick={() => {
-              setPriceChange({ id: 'priceChange1w', text: '1w%' });
-              setSortConfig('rank', 'asc');
-              sortTable('rank', 'asc');
-            }}>1W</button>
           </div>
         </div>
         <div className="navigationBar"></div>

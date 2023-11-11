@@ -152,6 +152,19 @@ input {
     flex-shrink: 0;
 }
 
+img[alt]:before {
+    width: 24px;
+    height: 24px;
+    background-color: var(--gray);
+    border-radius: 50%;
+    color: var(--bgColor);
+    font-size: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: attr(alt);
+}
+
 /* Контейнер для краткого названия и капитализации */
 .symbol-and-cap-container {
     display: flex;
