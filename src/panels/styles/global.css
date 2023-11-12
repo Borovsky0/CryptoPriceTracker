@@ -88,6 +88,7 @@
 
 table {
     width: 100%;
+    table-layout: fixed;
     background-color: var(--bgColor);
     border-collapse: separate;
     border-spacing: 0 var(--table-padding);
@@ -133,6 +134,22 @@ input {
     white-space: nowrap;
 }
 
+.rank-col {
+    width: 12%;
+}
+
+.market-cap-col {
+    width: 30%;
+}
+
+.price-col {
+    width: 35%;
+}
+
+.percent-col {
+    width: 23%;
+}
+
 /* td-стиль для ячейки рыночной капитализации */
 .td-market-cap {
     padding: var(--td-padding);
@@ -150,19 +167,6 @@ input {
 .logo {
     display: flex;
     flex-shrink: 0;
-}
-
-img[alt]:before {
-    width: 24px;
-    height: 24px;
-    background-color: var(--gray);
-    border-radius: 50%;
-    color: var(--bgColor);
-    font-size: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    content: attr(alt);
 }
 
 /* Контейнер для краткого названия и капитализации */

@@ -7,24 +7,23 @@ function Home() {
   const [search, setSearch] = useState("");
   const [crypto, setCrypto] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
-  const [priceChange, setPriceChange] = useState({ id: 'changePercent24Hr', text: '1d%' });
+  const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1d%' });
   const [theme, setTheme] = useState("dark-theme");
   const tableRef = useRef(null);
   const style = getComputedStyle(document.body);
 
   const updateData = () => {
     Axios.get(
-      `https://api.coincap.io/v2/assets`
+      `https://openapiv1.coinstats.app/coins?limit=100&currency=USD`, {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
+        }
+      }
     ).then((res) => {
       // Сортировка данных на основе текущей конфигурации сортировки
-      const sortedData = [...res.data.data].map(item => ({
-        ...item,
-        rank: parseInt(item.rank),
-        marketCapUsd: parseFloat(item.marketCapUsd),
-        priceUsd: parseFloat(item.priceUsd),
-        changePercent24Hr: parseFloat(item.changePercent24Hr),
-      }));
-      
+      const sortedData = [...res.data.result];
       sortedData.sort((a, b) => {
         const key = sortConfig.key;
         const direction = sortConfig.direction === "asc" ? 1 : -1;
@@ -39,7 +38,6 @@ function Home() {
       });
 
       // Обновление состояния с отсортированными данными
-      
       setCrypto(sortedData);
     });
   };
@@ -48,10 +46,10 @@ function Home() {
     // Получение данных
     updateData();
 
-    // Установка интервала для получения данных каждые 10 секунд
+    // Установка интервала для получения данных каждые 1000 секунд
     const intervalId = setInterval(() => {
       updateData();
-    }, 10000);
+    }, 1000000);
 
     // Очистить интервал, когда компонент размонтирован
     return () => clearInterval(intervalId);
@@ -132,10 +130,6 @@ function Home() {
     return "";
   };
 
-  const missedLogo = () => {
-  return (<div className="empty-logo">{val.symbol}</div>)
-  };
-
   return (
     <div className={theme}>
       <div className="grid">
@@ -152,6 +146,12 @@ function Home() {
         </div>
         <div className="body">
           <table ref={tableRef}>
+            <colgroup>
+              <col className="rank-col"></col>
+              <col className="market-cap-col"></col>
+              <col className="price-col"></col>
+              <col className="percent-col"></col>
+            </colgroup>
             <thead>
               <tr>
                 <td onClick={() => handleSort("rank")}>
@@ -160,21 +160,21 @@ function Home() {
                     <span className="sort-symbol">{getSortIcon("rank")}</span>
                   </div>
                 </td>
-                <td onClick={() => handleSort("marketCapUsd")}>
+                <td onClick={() => handleSort("marketCap")}>
                   <div className="thead-container">
                     <span className="head-text">Market Cap</span>
-                    <span className="sort-symbol">{getSortIcon("marketCapUsd")}</span>
+                    <span className="sort-symbol">{getSortIcon("marketCap")}</span>
                   </div>
                 </td>
-                <td onClick={() => handleSort("priceUsd")}>
+                <td onClick={() => handleSort("price")}>
                   <div className="thead-container">
                     <span className="head-text">Price</span>
-                    <span className="sort-symbol">{getSortIcon("priceUsd")}</span>
+                    <span className="sort-symbol">{getSortIcon("price")}</span>
                   </div>
                 </td>
                 <td onClick={() => handleSort(priceChange.id)}>
                   <div className="thead-container">
-                    <span className="head-text">1d%</span>
+                    <span className="head-text">{priceChange.text}</span>
                     <span className="sort-symbol">{getSortIcon(priceChange.id)}</span>
                   </div>
                 </td>
@@ -193,21 +193,20 @@ function Home() {
                       </td>
                       <td className="td-market-cap">
                         <div className="market-cap-container">
-                          
                           <div className="logo">
-                            <img src={`https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/32/${val.id}.png`} alt="" width={"24px"}/>
+                            <img src={val.icon} alt="logo" width={"24px"} />
                           </div>
                           <div className="symbol-and-cap-container">
                             <p className="symbol">{val.symbol}</p>
-                            <span className="cap">{convertToSI(val.marketCapUsd)}</span>
-                          </div>  
+                            <span className="cap">{convertToSI(val.marketCap)}</span>
+                          </div>
                         </div>
                       </td>
                       <td className="td-default">
-                        <p className="price">{"$" + convertToPrice(val.priceUsd)}</p>
+                        <p className="price">{"$" + convertToPrice(val.price)}</p>
                       </td>
                       <td className="td-default">
-                        <p className={val[priceChange.id] < 0 ? "red" : "green"}>{val[priceChange.id].toFixed(2)}%</p>
+                        <p className={val[priceChange.id] < 0 ? "red" : "green"}>{val[priceChange.id]}%</p>
                       </td>
                     </tr>
                   );
@@ -221,7 +220,23 @@ function Home() {
             <button className="button-default" onClick={
               // Нарушает сортировку при нажатии
               updateData
-              }>UPDATE</button>
+            }>UPDATE</button>
+            <button className="button-default" onClick={() => {
+              // Временно
+              setPriceChange({ id: 'priceChange1h', text: '1h%' });
+              setSortConfig('rank', 'asc');
+              sortTable('rank', 'asc');
+            }}>1H</button>
+            <button className="button-default" onClick={() => {
+              setPriceChange({ id: 'priceChange1d', text: '1d%' });
+              setSortConfig('rank', 'asc');
+              sortTable('rank', 'asc');
+            }}>1D</button>
+            <button className="button-default" onClick={() => {
+              setPriceChange({ id: 'priceChange1w', text: '1w%' });
+              setSortConfig('rank', 'asc');
+              sortTable('rank', 'asc');
+            }}>1W</button>
           </div>
         </div>
         <div className="navigationBar"></div>
