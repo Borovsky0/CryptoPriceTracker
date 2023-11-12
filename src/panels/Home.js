@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import Axios from "axios"
 import "./styles/global.css";
 import bridge from '@vkontakte/vk-bridge';
+import Popup from 'reactjs-popup';
+
 
 function Home() {
   const [search, setSearch] = useState("");
   const [crypto, setCrypto] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
-  const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1d%' });
+  const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1D%' });
   const [theme, setTheme] = useState("dark-theme");
   const tableRef = useRef(null);
   const style = getComputedStyle(document.body);
@@ -15,12 +17,12 @@ function Home() {
   const updateData = () => {
     Axios.get(
       `https://openapiv1.coinstats.app/coins?limit=100&currency=USD`, {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
-        }
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
       }
+    }
     ).then((res) => {
       // Сортировка данных на основе текущей конфигурации сортировки
       const sortedData = [...res.data.result];
@@ -136,6 +138,7 @@ function Home() {
         <div className="statusBar"></div>
         <div className="top">
           <input
+          className="search"
             type="text"
             placeholder="Search..."
             value={search}
@@ -143,6 +146,28 @@ function Home() {
               setSearch(e.target.value);
             }}
           />
+          <Popup
+            trigger={<button className="button-default">{priceChange.text} ⌵</button>}
+            position="bottom center"
+            closeOnDocumentClick
+          >
+            {close => (
+              <div>
+                <div className="price-change" onClick={() => {
+                  setPriceChange({ id: 'priceChange1h', text: '1H%' });
+                  close();
+                }}>1H% {priceChange.text === '1H%' ? '•' : ''}</div>
+                <div className="price-change" onClick={() => {
+                  setPriceChange({ id: 'priceChange1d', text: '1D%' });
+                  close();
+                }}>1D% {priceChange.text === '1D%' ? '•' : ''}</div>
+                <div className="price-change" onClick={() => {
+                  setPriceChange({ id: 'priceChange1w', text: '1W%' });
+                  close();
+                }}>1W% {priceChange.text === '1W%' ? '•' : ''}</div>
+              </div>
+            )}
+          </Popup>
         </div>
         <div className="body">
           <table ref={tableRef}>
@@ -217,26 +242,6 @@ function Home() {
         <div className="bottom">
           <div className="buttons-container">
             <button className="button-default" onClick={() => { changeTheme() }}>THEME</button>
-            <button className="button-default" onClick={
-              // Нарушает сортировку при нажатии
-              updateData
-            }>UPDATE</button>
-            <button className="button-default" onClick={() => {
-              // Временно
-              setPriceChange({ id: 'priceChange1h', text: '1h%' });
-              setSortConfig('rank', 'asc');
-              sortTable('rank', 'asc');
-            }}>1H</button>
-            <button className="button-default" onClick={() => {
-              setPriceChange({ id: 'priceChange1d', text: '1d%' });
-              setSortConfig('rank', 'asc');
-              sortTable('rank', 'asc');
-            }}>1D</button>
-            <button className="button-default" onClick={() => {
-              setPriceChange({ id: 'priceChange1w', text: '1w%' });
-              setSortConfig('rank', 'asc');
-              sortTable('rank', 'asc');
-            }}>1W</button>
           </div>
         </div>
         <div className="navigationBar"></div>
