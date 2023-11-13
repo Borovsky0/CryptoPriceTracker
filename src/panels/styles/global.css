@@ -15,15 +15,20 @@
     --iOSbottom: env(safe-area-inset-bottom);
 }
 
-.light-theme {
-    --textColor: var(--black);
-    --bgColor: var(--white);
+[data-theme="light"] {
+    --bgColor: #FFFFFF;
+    --textColor: #000000;
+    --lightGray: #E1E1E1;
+    --delimeter: rgba(0, 0, 0, .2);
 }
-
-.dark-theme {
-    --textColor: var(--white);
-    --bgColor: var(--black);
+  
+[data-theme="dark"] {
+    --bgColor: #000000;
+    --textColor: #FFFFFF;
+    --lightGray: #808080;
+    --delimeter: rgba(255, 255, 255, .2);
 }
+  
 
 .red,
 .green {
@@ -47,7 +52,6 @@
 
 .top {
     background-color: var(--bgColor);
-    align-items: left;
 }
 
 .body {
@@ -79,7 +83,7 @@
     border-radius: 6px;
     border: none;
     font-size: 12px;
-    background-color: var(--gray);
+    background-color: var(--lightGray);
     font-family: 'Inter', sans-serif;
     margin: 5px;
     padding-left: 10px;
@@ -229,26 +233,26 @@ input {
     justify-content: flex-start;
 }
 
-.price-change {
+.popup-row {
     font-size: 12px;
-    color: var(--bgColor);
-    background-color: var(--gray);
+    color: var(--textColor);
+    background-color: var(--lightGray);
     font-family: 'Inter', sans-serif;
     padding: 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, .2);
+    border-bottom: 1px solid var(--delimeter);
 }
 
-.price-change:last-child { border-bottom: none; }
+.popup-row:last-child { border-bottom: none; }
 
 .popup-content {
     margin: auto;
-    background: var(--gray);
+    background: var(--lightGray);
     padding: 5px;
     border-radius: 6px;
 }
 
 .popup-arrow {
-    color: transparent  ;
+    color: transparent;
 }
 
 .search {
