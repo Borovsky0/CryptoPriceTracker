@@ -259,7 +259,9 @@ function Home() {
           <tbody>
             {crypto
               .filter((val) => {
-                return val.name.toLowerCase().includes(search.toLowerCase());
+                const fullNameMatch = val.name.toLowerCase().includes(search.toLowerCase());
+                const shortNameMatch = val.symbol.toLowerCase().includes(search.toLowerCase());
+                return fullNameMatch || shortNameMatch;
               })
               .map((val, id) => {
                 return (
