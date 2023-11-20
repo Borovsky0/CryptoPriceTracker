@@ -7,12 +7,15 @@ import Popup from 'reactjs-popup';
 
 function Home() {
   const [search, setSearch] = useState("");
+  const [searchState, setSearchState] = useState(false);
   const [crypto, setCrypto] = useState([]);
+  const [showFullName, setShowFullName] = useState(true);
   const [theme, setTheme] = useState("dark");
   const [currency, setCurrency] = useState("USD");
   const [fiats, setFiats] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
   const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1D%' });
+  const searchRef = useRef(null);
   const tableRef = useRef(null);
   const style = getComputedStyle(document.body);
 
@@ -98,6 +101,11 @@ function Home() {
     });
   };
 
+  // Поменять отображение названия/символа
+  const switchNames = () => {
+    showFullName ? setShowFullName(false) : setShowFullName(true);
+  };
+
   // Заменяет тему при изменении параметра theme
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
@@ -162,19 +170,28 @@ function Home() {
     return "";
   };
 
+  const openSearch = () => {
+    setSearchState(true);
+    // Фокус не ставится потому что элемент не успевает прорисоваться
+    searchRef.current.focus();
+  };
+
+  const closeSearch = () => {
+    setSearch("");
+    setSearchState(false);
+  };
+
+  // SVG убрать в будущем
   return (
     <div className="grid">
       <div className="statusBar"></div>
       <div className="top">
-        <input
-          className="search"
-          type="text"
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-        />
+        <svg className="icon-button" height="24" width="24" onClick={() => openSearch()}>
+          <path d="M4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11C18 14.866 14.866 18 11 18C7.13401 18 4 14.866 4 11ZM11 
+          2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C13.125 20 15.078 19.2635 16.6177 18.0319L20.2929 21.7071C20.6834 
+          22.0976 21.3166 22.0976 21.7071 21.7071C22.0976 21.3166 22.0976 20.6834 21.7071 20.2929L18.0319 16.6177C19.2635 15.078 
+          20 13.125 20 11C20 6.02944 15.9706 2 11 2Z"/>
+        </svg>
         <Popup
           trigger={<button className="button-default">{priceChange.text} ⌵</button>}
           position="bottom center"
@@ -219,6 +236,19 @@ function Home() {
             </div>
           )}
         </Popup>
+        <input 
+        className={`search ${searchState ? 'active' : ''}`}
+        ref={searchRef} 
+        autoFocus
+        type="text"
+        placeholder="Search"
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          }} />
+        <svg className={`close-button ${searchState ? 'active' : ''}`} height="24" width="24" onClick={() => closeSearch()}>
+          <path d="M16 8L8 16M8 8L16 16" stroke-width="2" stroke-linecap="round"/>
+        </svg>
       </div>
       <div className="body">
         <table ref={tableRef}>
@@ -274,8 +304,8 @@ function Home() {
                         <div className="logo">
                           <img src={val.icon} alt="logo" width={"24px"} />
                         </div>
-                        <div className="symbol-and-cap-container">
-                          <p className="symbol">{val.symbol}</p>
+                        <div className="name-and-cap-container">
+                          <p className="name">{showFullName ? val.name : val.symbol}</p>
                           <span className="cap">{convertToSI(val.marketCap)}</span>
                         </div>
                       </div>
@@ -295,6 +325,7 @@ function Home() {
       <div className="bottom">
         <div className="buttons-container">
           <button className="button-default" onClick={() => switchTheme()}>Theme</button>
+          <button className="button-default" onClick={() => switchNames()}>Names</button>
         </div>
       </div>
       <div className="navigationBar"></div>

@@ -51,7 +51,11 @@
 }
 
 .top {
+    display: flex;
+    align-items: center;
     background-color: var(--bgColor);
+    padding-left: var(--table-padding);
+    padding-right: var(--table-padding);
 }
 
 .body {
@@ -70,12 +74,14 @@
 .bottom {
     display: flex;
     background-color: var(--bgColor);
+    padding-left: var(--table-padding);
+    padding-right: var(--table-padding);
 }
 
 .buttons-container {
     display: grid;
     width: 100%;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .button-default {
@@ -123,13 +129,6 @@ thead {
     border-radius: 12px;
     outline: 1px solid var(--gray);
     outline-offset: -1px;
-}
-
-input {
-    margin-left: 1em;
-    font-size: 20px;
-    width: 250px;
-    height: 30px;
 }
 
 /* td-стиль для обычной ячейки */
@@ -181,14 +180,14 @@ input {
 }
 
 /* Контейнер для краткого названия и капитализации */
-.symbol-and-cap-container {
+.name-and-cap-container {
     display: flex;
     flex-direction: column;
     margin-inline-start: var(--td-padding);
 }
 
 /* Краткое название криптовалюты */
-.symbol {
+.name {
     display: flex;
     color: var(--textColor);
     margin-top: 0;
@@ -253,11 +252,54 @@ input {
 
 .popup-arrow {
     color: transparent;
+    stroke: transparent;
+}
+
+.icon-button {
+    padding: 6px;
+}
+
+svg {
+    fill: var(--textColor);
+    stroke: var(--textColor);
+    cursor: pointer;
 }
 
 .search {
-    margin: 5px;
-    width: 50%;
+    position: absolute;
+    background-color: var(--bgColor);
+    border: 2px solid var(--textColor);
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    caret-color: var(--textColor);
+    color: var(--textColor);
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 6px;
+    width: calc(100% - 72px);
+    visibility: hidden;
 }
+
+.search.active {
+    visibility: visible;
+}
+
+.search:focus{
+    outline: none;
+    border: 2px solid var(--textColor);
+}
+
+.search::placeholder{
+    color: var(--gray);
+}
+
+.close-button {
+    padding: 6px;
+    margin-left: auto; 
+    visibility: hidden;
+}
+
+.close-button.active { 
+    visibility: visible;
+}
+
+
