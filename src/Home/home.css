@@ -1,0 +1,128 @@
+@import '../constants.css';
+
+/* Текст */
+
+.text-12.thead {
+    color: var(--gray);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.text-12.end {
+    justify-content: flex-end;
+}
+
+.text-12.start {
+    justify-content: flex-start;
+}
+
+/* Контейнеры */
+
+.container.market-cap { 
+    -webkit-box-align: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+.container.buttons-3 {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.container.name-and-cap {
+    display: flex;
+    flex-direction: column;
+    margin-inline-start: var(--padding-small);
+}
+
+/* Фиксированная ширина столбцов таблицы */
+
+.column.rank {
+    width: 12%;
+}
+
+.column.market-cap {
+    width: 30%;
+}
+
+.column.price {
+    width: 35%;
+}
+
+.column.percent {
+    width: 23%;
+}
+
+/* Стили для popup-элемента */
+
+.popup-row {
+    font-size: 12px;
+    color: var(--textColor);
+    background-color: var(--lightGray);
+    font-family: 'Inter', sans-serif;
+    padding: 5px;
+    border-bottom: 1px solid var(--delimeter);
+}
+
+.popup-row:last-child { border-bottom: none; }
+
+.popup-content {
+    margin: auto;
+    background: var(--lightGray);
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.popup-arrow {
+    color: transparent;
+    stroke: transparent;
+}
+
+.tr-border {
+    border-radius: 12px;
+    outline: 1px solid var(--gray);
+    outline-offset: -1px;
+}
+
+/* Стили поисковой строки */
+
+.search {
+    position: absolute;
+    background-color: var(--bgColor);
+    border: 2px solid var(--textColor);
+    font-family: 'Inter', sans-serif;
+    caret-color: var(--textColor);
+    color: var(--textColor);
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 6px;
+    width: calc(100% - 72px);
+    visibility: hidden;
+}
+
+.search.active {
+    visibility: visible;
+}
+
+.search:focus{
+    outline: none;
+    border: 2px solid var(--textColor);
+}
+
+.search::placeholder{
+    color: var(--gray);
+}
+
+/* Кнопка для закрытия поисковой строки */
+
+.close-button {
+    padding: 6px;
+    margin-left: auto; 
+    visibility: hidden;
+}
+
+.close-button.active { 
+    visibility: visible;
+}

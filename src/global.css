@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+@import './constants.css';
+
+/* Основная сетка приложения (grid) и её элементы: */
+/* top, body, bottom, а также statusBar и navigationBar для iOS*/
+
+.grid {
+    display: grid;
+    grid-template-rows: var(--iOStop) 1fr 13fr 1fr var(--iOSbottom);
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bgColor);
+    padding-left: var(--padding-big);
+    padding-right: var(--padding-big);
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    background-color: var(--bgColor);
+    overflow-y: scroll;
+}
+
+.body::-webkit-scrollbar {
+    display: none;
+}
+
+.bottom {
+    display: flex;
+    background-color: var(--bgColor);
+    padding-left: var(--padding-big);
+    padding-right: var(--padding-big);
+}
+
+.statusBar,
+.navigationBar {
+    background-color: var(--bgColor);
+}
+
+/* Стили длятекста размером 16 */
+
+.text-16 {
+    font-size: 16px;
+    color: var(--textColor);
+}
+
+/* Стили для текста размером 14 */
+
+.text-14 {
+    font-size: 14px;
+    color: var(--textColor);
+}
+
+.text-14.name {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.text-14.red {
+    color: var(--red);
+}
+
+.text-14.green {
+    color: var(--green);    
+}
+
+/* Стили для текста размером 12 */
+
+.text-12 {
+    font-size: 12px;
+    color: var(--textColor);
+}
+
+.text-12.gray {
+    color: var(--gray);
+    white-space: nowrap;
+}
+
+/* Контейнеры */
+
+.text-container {
+    padding: var(--padding-small);
+}
+
+.text-container.start {
+    text-align: start;
+}
+
+.text-container.end {
+    text-align: end;
+}
+
+.container.logo {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.container.thead {
+    display: grid;
+    height: calc(var(--padding-big)*2);
+    grid-template-columns: 2fr 1fr;
+}
+
+/* Стандартные CSS элементы */
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    background-color: var(--bgColor);
+    border-collapse: separate;
+    border-spacing: 0 var(--padding-big);
+    padding-left: var(--padding-big);
+    padding-right: var(--padding-big);
+}
+
+tr {
+    font-size: 12px;
+}
+
+thead {
+    background-color: var(--bgColor);
+    color: var(--gray);
+    user-select: none;
+    position: sticky;
+    top: 0;
+}
+
+svg {
+    stroke: var(--textColor);
+    cursor: pointer;
+}
+
+svg.filled {
+    fill: var(--textColor);
+}
+
+/* Кнопки */
+
+.button.default {
+    color: var(--textColor);
+    border-radius: 6px;
+    border: none;
+    font-size: 12px;
+    background-color: var(--lightGray);
+    font-family: 'Inter', sans-serif;
+    margin: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.button.icon {
+    padding: 6px;
+}
+

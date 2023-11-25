@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
-import Axios from "axios"
-import "./styles/global.css";
+import React, { useEffect, useState, useRef } from 'react';
+import Axios from 'axios'
+import '../global.css';
+import './home.css';
 import bridge from '@vkontakte/vk-bridge';
 import Popup from 'reactjs-popup';
 
-
-function Home() {
+function Home({id, go}) {
   const [search, setSearch] = useState("");
   const [searchState, setSearchState] = useState(false);
   const [crypto, setCrypto] = useState([]);
@@ -186,14 +186,14 @@ function Home() {
     <div className="grid">
       <div className="statusBar"></div>
       <div className="top">
-        <svg className="icon-button" height="24" width="24" onClick={() => openSearch()}>
+        <svg className="button icon filled" height="24" width="24" onClick={() => openSearch()}>
           <path d="M4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11C18 14.866 14.866 18 11 18C7.13401 18 4 14.866 4 11ZM11 
           2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C13.125 20 15.078 19.2635 16.6177 18.0319L20.2929 21.7071C20.6834 
           22.0976 21.3166 22.0976 21.7071 21.7071C22.0976 21.3166 22.0976 20.6834 21.7071 20.2929L18.0319 16.6177C19.2635 15.078 
           20 13.125 20 11C20 6.02944 15.9706 2 11 2Z"/>
         </svg>
         <Popup
-          trigger={<button className="button-default">{priceChange.text} ⌵</button>}
+          trigger={<button className="button default">{priceChange.text} ⌵</button>}
           position="bottom center"
           closeOnDocumentClick
         >
@@ -215,7 +215,7 @@ function Home() {
           )}
         </Popup>
         <Popup
-          trigger={<button className="button-default">{currency} ⌵</button>}
+          trigger={<button className="button default">{currency} ⌵</button>}
           position="bottom center"
           closeOnDocumentClick
         >
@@ -253,35 +253,35 @@ function Home() {
       <div className="body">
         <table ref={tableRef}>
           <colgroup>
-            <col className="rank-col"></col>
-            <col className="market-cap-col"></col>
-            <col className="price-col"></col>
-            <col className="percent-col"></col>
+            <col className="column rank"></col>
+            <col className="column market-cap"></col>
+            <col className="column price"></col>
+            <col className="column percent"></col>
           </colgroup>
           <thead>
             <tr>
               <td onClick={() => handleSort("rank")}>
-                <div className="thead-container">
-                  <span className="head-text">Rank</span>
-                  <span className="sort-symbol">{getSortIcon("rank")}</span>
+                <div className="container thead">
+                  <span className="text-12 thead end">Rank</span>
+                  <span className="text-12 thead start">{getSortIcon("rank")}</span>
                 </div>
               </td>
               <td onClick={() => handleSort("marketCap")}>
-                <div className="thead-container">
-                  <span className="head-text">Market Cap</span>
-                  <span className="sort-symbol">{getSortIcon("marketCap")}</span>
+                <div className="container thead">
+                  <span className="text-12 thead end">Market Cap</span>
+                  <span className="text-12 thead start">{getSortIcon("marketCap")}</span>
                 </div>
               </td>
               <td onClick={() => handleSort("price")}>
-                <div className="thead-container">
-                  <span className="head-text">Price</span>
-                  <span className="sort-symbol">{getSortIcon("price")}</span>
+                <div className="container thead">
+                  <span className="text-12 thead end">Price</span>
+                  <span className="text-12 thead start">{getSortIcon("price")}</span>
                 </div>
               </td>
               <td onClick={() => handleSort(priceChange.id)}>
-                <div className="thead-container">
-                  <span className="head-text">{priceChange.text}</span>
-                  <span className="sort-symbol">{getSortIcon(priceChange.id)}</span>
+                <div className="container thead">
+                  <span className="text-12 thead end">{priceChange.text}</span>
+                  <span className="text-12 thead start">{getSortIcon(priceChange.id)}</span>
                 </div>
               </td>
             </tr>
@@ -295,26 +295,26 @@ function Home() {
               })
               .map((val, id) => {
                 return (
-                  <tr className="tr-border" id={id}>
-                    <td className="td-default">
-                      <span className="rank">{val.rank}</span>
+                  <tr className="tr-border" id={id} onClick={() => go('info', val)} >
+                    <td className="text-container end">
+                      <span className="text-12 gray">{val.rank}</span>
                     </td>
-                    <td className="td-market-cap">
-                      <div className="market-cap-container">
-                        <div className="logo">
+                    <td className="text-container start">
+                      <div className="container market-cap">
+                        <div className="container logo">
                           <img src={val.icon} alt="logo" width={"24px"} />
                         </div>
-                        <div className="name-and-cap-container">
-                          <p className="name">{showFullName ? val.name : val.symbol}</p>
-                          <span className="cap">{convertToSI(val.marketCap)}</span>
+                        <div className="container name-and-cap">
+                          <p className="text-14 name">{showFullName ? val.name : val.symbol}</p>
+                          <span className="text-12 gray">{convertToSI(val.marketCap)}</span>
                         </div>
                       </div>
                     </td>
-                    <td className="td-default">
-                      <p className="price">{(fiats.find(item => item.name === currency)?.symbol || currency) + convertToPrice(val.price)}</p>
+                    <td className="text-container end">
+                      <p className="text-14">{(fiats.find(item => item.name === currency)?.symbol || currency) + convertToPrice(val.price)}</p>
                     </td>
-                    <td className="td-default">
-                      <p className={val[priceChange.id] < 0 ? "red" : "green"}>{val[priceChange.id]}%</p>
+                    <td className="text-container end">
+                      <p className={val[priceChange.id] < 0 ? "text-14 red" : "text-14 green"}>{val[priceChange.id]}%</p>
                     </td>
                   </tr>
                 );
@@ -323,9 +323,9 @@ function Home() {
         </table>
       </div>
       <div className="bottom">
-        <div className="buttons-container">
-          <button className="button-default" onClick={() => switchTheme()}>Theme</button>
-          <button className="button-default" onClick={() => switchNames()}>Names</button>
+        <div className="container buttons-3">
+          <button className="button default" onClick={() => switchTheme()}>Theme</button>
+          <button className="button default" onClick={() => switchNames()}>Names</button>
         </div>
       </div>
       <div className="navigationBar"></div>

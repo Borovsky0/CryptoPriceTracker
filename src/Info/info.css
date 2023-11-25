@@ -1,0 +1,12 @@
+@import '../constants.css';
+
+.container.logo-and-symbol {
+    display: flex;
+    align-items: stretch;
+}
+
+.container.symbol {
+    display: flex;
+    align-items: center;
+    padding-left: calc(var(--padding-small)/2);
+}

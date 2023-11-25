@@ -1,0 +1,28 @@
+:root {
+    /* Цвета */
+    --green: #64c864;
+    --red: #f45858;
+    --gray: #808080;
+    --black: #000000;
+    --white: #FFFFFF;
+    /* Отступы и размеры */
+    --padding-small: 0.75em;
+    --padding-big: 10px;
+    /* env safe area необходимы для отделения приложения от статус и навигейшн баров на iOS, на Android и ПК переменные равны 0 */
+    --iOStop: env(safe-area-inset-top);
+    --iOSbottom: env(safe-area-inset-bottom);
+}
+
+[data-theme="light"] {
+    --bgColor: #FFFFFF;
+    --textColor: #000000;
+    --lightGray: #E1E1E1;
+    --delimeter: rgba(0, 0, 0, .2);
+}
+  
+[data-theme="dark"] {
+    --bgColor: #000000;
+    --textColor: #FFFFFF;
+    --lightGray: #808080;
+    --delimeter: rgba(255, 255, 255, .2);
+}

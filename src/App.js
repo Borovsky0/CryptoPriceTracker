@@ -3,10 +3,12 @@ import bridge from '@vkontakte/vk-bridge';
 import { View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Home from './panels/Home';
+import Home from './Home/Home';
+import Info from './Info/Info';
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
+	const [infoData, setInfoData] = useState("");
 	const [fetchedUser, setUser] = useState(null);
 
 	useEffect(() => {
@@ -15,16 +17,17 @@ const App = () => {
 
 			await bridge.send('VKWebAppSetViewSettings', {
 				status_bar_style: 'dark',
-				action_bar_color: style.getPropertyValue('--bgColor'),
-				navigation_bar_color: style.getPropertyValue('--bgColor')
+				action_bar_color: getComputedStyle(document.body).getPropertyValue('--bgColor'),
+				navigation_bar_color: getComputedStyle(document.body).getPropertyValue('--bgColor')
 				});
 			setUser(user);
 		}
 		fetchData();
 	}, []);
 
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
+	const go = (panel, data) => {
+		setActivePanel(panel);
+		setInfoData(data);
 	};
 
 	return (
@@ -34,7 +37,8 @@ const App = () => {
 					<SplitLayout>
 						<SplitCol>
 							<View activePanel={activePanel}>
-								<Home id='home' fetchedUser={fetchedUser} go={go} />
+								<Home id='home' go={go} />
+								<Info id='info' go={go} data = {infoData} />
 							</View>
 						</SplitCol>
 					</SplitLayout>
