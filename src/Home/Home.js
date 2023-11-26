@@ -6,39 +6,21 @@ import './home.css';
 import bridge from '@vkontakte/vk-bridge';
 import Popup from 'reactjs-popup';
 
-function Home({id, go}) {
+function Home({id, go, setGlobalCurrency, currency}) {
   const [search, setSearch] = useState("");
   const [searchState, setSearchState] = useState(false);
   const [crypto, setCrypto] = useState([]);
   const [showFullName, setShowFullName] = useState(true);
   const [theme, setTheme] = useState("dark");
-  const [currency, setCurrency] = useState("USD");
-  const [fiats, setFiats] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
   const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1D%' });
   const searchRef = useRef(null);
   const tableRef = useRef(null);
   const style = getComputedStyle(document.body);
-
-  // Получить список доступных валют и информацию о них
-  useEffect(() => {
-    Axios.get(
-      `https://openapiv1.coinstats.app/fiats`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
-      }
-    }
-    ).then((res) => {
-      const fiatsData = [...res.data];
-      setFiats(fiatsData);
-    });
-  }, []);
-
+  
   const updateData = () => {
     Axios.get(
-      `https://openapiv1.coinstats.app/coins?limit=100&currency=${currency}`, {
+      `https://openapiv1.coinstats.app/coins?limit=100&currency=${currency.value}`, {
       method: 'GET',
       headers: {
         accept: 'application/json',
@@ -73,7 +55,7 @@ function Home({id, go}) {
     // Установка интервала для получения данных каждые 30 секунд
     const intervalId = setInterval(() => {
       updateData();
-    }, 30000);
+    }, 10000);
 
     // Очистить интервал, когда компонент размонтирован
     return () => clearInterval(intervalId);
@@ -198,24 +180,24 @@ function Home({id, go}) {
           )}
         </Popup>
         <Popup
-          trigger={<button className="button default">{currency} ⌵</button>}
+          trigger={<button className="button default">{currency.value} ⌵</button>}
           position="bottom center"
           closeOnDocumentClick
         >
           {close => (
             <div>
               <div className="popup-row" onClick={() => {
-                setCurrency('USD');
+                setGlobalCurrency('USD');
                 close();
-              }}>USD {currency === 'USD' ? '•' : ''}</div>
+              }}>USD {currency.value === 'USD' ? '•' : ''}</div>
               <div className="popup-row" onClick={() => {
-                setCurrency('EUR');
+                setGlobalCurrency('EUR');
                 close();
-              }}>EUR {currency === 'EUR' ? '•' : ''}</div>
+              }}>EUR {currency.value === 'EUR' ? '•' : ''}</div>
               <div className="popup-row" onClick={() => {
-                setCurrency('RUB');
+                setGlobalCurrency('RUB');
                 close();
-              }}>RUB {currency === 'RUB' ? '•' : ''}</div>
+              }}>RUB {currency.value === 'RUB' ? '•' : ''}</div>
             </div>
           )}
         </Popup>
@@ -294,7 +276,7 @@ function Home({id, go}) {
                       </div>
                     </td>
                     <td className="text-container end">
-                      <p className="text-14">{(fiats.find(item => item.name === currency)?.symbol || currency) + convertToPrice(val.price)}</p>
+                      <p className="text-14">{currency.symbol + convertToPrice(val.price)}</p>
                     </td>
                     <td className="text-container end">
                       <p className={val[priceChange.id] < 0 ? "text-14 red" : "text-14 green"}>{val[priceChange.id]}%</p>

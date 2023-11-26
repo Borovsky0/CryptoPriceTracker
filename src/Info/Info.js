@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "../global.css";
 import './info.css';
-import { convertToPrice } from '../Functions.js';
+import { convertToPrice, convertToIntegerPrice } from '../Functions.js';
 import Chart from 'react-apexcharts'
 
-function Info({ id, go, data }) {
+function Info({ id, go, data, currency }) {
 
     const [favorite, setFavorite] = useState(false);
 
@@ -437,7 +437,6 @@ function Info({ id, go, data }) {
 
     for (let i = 0; i < chart2.length; i++) {
         chart2[i][0] = chart2[i][0] * 1000;
-        chart2[i][1] = convertToPrice(chart2[i][1]);
     }
 
     const options = {
@@ -460,13 +459,15 @@ function Info({ id, go, data }) {
         yaxis: {
             floating: true,
             labels: {
-                offsetX: 65,
+                align: 'left',
+                offsetX: 8,
                 offsetY: -8,
                 style:
                 {
                     fontSize: '12px',
                     cssClass: 'chart-labels'
-                }
+                },
+                formatter: (value) => { return currency.symbol + convertToIntegerPrice(value); }
             },
         },
         chart: {
@@ -492,7 +493,7 @@ function Info({ id, go, data }) {
             borderColor: getComputedStyle(document.body).getPropertyValue('--darkGray'),
         }
     };
-    
+
     const series = [
         {
             data: chart2
@@ -530,7 +531,7 @@ function Info({ id, go, data }) {
                     <span className="text-16">{data.name}</span>
                 </div>
                 <div className="text-container sided">
-                    <span className="text-24">{convertToPrice(data.price)}</span>
+                    <span className="text-24">{currency.symbol + convertToPrice(data.price)}</span>
                 </div>
                 <Chart options={options} series={series} type="area" />
             </div>
