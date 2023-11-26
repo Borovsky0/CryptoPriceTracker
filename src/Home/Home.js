@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Axios from 'axios'
+import {convertToPrice, convertToSI} from '../Functions.js';
 import '../global.css';
 import './home.css';
 import bridge from '@vkontakte/vk-bridge';
@@ -143,24 +144,6 @@ function Home({id, go}) {
     setSortConfig({ key, direction });
     sortTable(key, direction);
   };
-
-  // Конвертация числа в систему СИ с буквенным обозначением
-  const convertToSI = (value) => {
-    return value >= 1.0e+12 ?
-      (value / 1.0e+12).toFixed(2) + "T" : value >= 1.0e+9 ?
-        (value / 1.0e+9).toFixed(2) + "B" : value >= 1.0e+6 ?
-          (value / 1.0e+6).toFixed(2) + "M" : value >= 1.0e+3 ?
-            (value / 1.0e+3).toFixed(2) + "K" : value;
-  }
-
-  // Оставляет у числа необходимое количество знаков после запятой
-  const convertToPrice = (value) => {
-    return value > 1.0e+6 ?
-      (value / 1.0e+6).toFixed(2) + "M" : value > 10 ?
-        value.toFixed(2) : value > 0.1 ?
-          value.toFixed(4) : value > 0.01 ?
-            value.toFixed(5) : value.toFixed(8);
-  }
 
   // Указать символ, информирующий о сортировке, если выбрана сортировка по определенному столбцу
   const getSortIcon = (key) => {

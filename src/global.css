@@ -23,10 +23,11 @@
 .body {
     display: flex;
     flex-direction: column;
-    align-items: center;
     font-size: 16px;
     background-color: var(--bgColor);
     overflow-y: scroll;
+    padding-left: var(--padding-big);
+    padding-right: var(--padding-big);
 }
 
 .body::-webkit-scrollbar {
@@ -43,6 +44,13 @@
 .statusBar,
 .navigationBar {
     background-color: var(--bgColor);
+}
+
+/* Стили длятекста размером 16 */
+
+.text-24 {
+    font-size: 24px;
+    color: var(--textColor);
 }
 
 /* Стили длятекста размером 16 */
@@ -92,6 +100,13 @@
     padding: var(--padding-small);
 }
 
+.text-container.sided {
+    padding-left: var(--padding-small);
+    padding-right: var(--padding-small);
+    padding-top: calc(var(--padding-small)/4);
+    padding-bottom: calc(var(--padding-small)/4);
+}
+
 .text-container.start {
     text-align: start;
 }
@@ -119,8 +134,6 @@ table {
     background-color: var(--bgColor);
     border-collapse: separate;
     border-spacing: 0 var(--padding-big);
-    padding-left: var(--padding-big);
-    padding-right: var(--padding-big);
 }
 
 tr {
@@ -136,6 +149,10 @@ thead {
 }
 
 svg {
+    stroke: none;
+}
+
+svg.icon {
     stroke: var(--textColor);
     cursor: pointer;
 }
@@ -163,4 +180,3 @@ svg.filled {
 .button.icon {
     padding: 6px;
 }
-
