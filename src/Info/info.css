@@ -15,3 +15,28 @@
 .chart-labels {
     fill: var(--textColor);
 }
+
+/* CSS элементы библиотеки apexcharts */
+
+.apexcharts-tooltip {
+    background: var(--darkGray);
+    color: var(--textColor);
+}
+
+.apexcharts-tooltip-series-group  { 
+    padding-left: calc(var(--padding-small)/2) !important;
+    padding-right: calc(var(--padding-small)/2) !important;
+}
+
+.apexcharts-tooltip-y-group {
+    padding: 0 0 calc(var(--padding-small)/2) 0 !important;
+}
+
+.apexcharts-tooltip-title{
+    padding: calc(var(--padding-small)/2) calc(var(--padding-small)/2) 0 calc(var(--padding-small)/2) !important;
+    margin: 0 !important;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active {
+    padding-bottom: 0px !important;
+}

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Axios from 'axios'
 import "../global.css";
 import './info.css';
 import { convertToPrice, convertToIntegerPrice } from '../Functions.js';
@@ -7,440 +8,32 @@ import Chart from 'react-apexcharts'
 function Info({ id, go, data, currency }) {
 
     const [favorite, setFavorite] = useState(false);
+    const [period, setPeriod] = useState('24h'); // 24h, 1w, 1m, 3m, 6m, 1y, all
+    const [chart, setChart] = useState([]);
 
-    const chart = [
-        [
-            1700863800,
-            37794.4877,
-            1,
-            18.189
-        ],
-        [
-            1700864100,
-            37722.5973,
-            1,
-            18.2252
-        ],
-        [
-            1700864400,
-            37767.0678,
-            1,
-            18.1837
-        ],
-        [
-            1700864700,
-            37763.5763,
-            1,
-            18.1908
-        ],
-        [
-            1700865000,
-            37721.5471,
-            1,
-            18.1874
-        ],
-        [
-            1700865300,
-            37736.537,
-            1,
-            18.1927
-        ],
-        [
-            1700865600,
-            37738.689,
-            1,
-            18.2007
-        ],
-        [
-            1700865900,
-            37740.4924,
-            1,
-            18.1952
-        ],
-        [
-            1700866200,
-            37767.5845,
-            1,
-            18.1852
-        ],
-        [
-            1700866500,
-            37727.3532,
-            1,
-            18.2055
-        ],
-        [
-            1700866800,
-            37696.4709,
-            1,
-            18.1875
-        ],
-        [
-            1700867100,
-            37638.1365,
-            1,
-            18.1781
-        ],
-        [
-            1700867400,
-            37604.4435,
-            1,
-            18.1748
-        ],
-        [
-            1700867700,
-            37613.2543,
-            1,
-            18.1589
-        ],
-        [
-            1700868000,
-            37646.5267,
-            1,
-            18.1743
-        ],
-        [
-            1700868300,
-            37674.742,
-            1,
-            18.1591
-        ],
-        [
-            1700868600,
-            37700.7989,
-            1,
-            18.1619
-        ],
-        [
-            1700868900,
-            37686.7799,
-            1,
-            18.1518
-        ],
-        [
-            1700869200,
-            37701.8882,
-            1,
-            18.1544
-        ],
-        [
-            1700869500,
-            37711.858,
-            1,
-            18.1663
-        ],
-        [
-            1700869800,
-            37705.529,
-            1,
-            18.1505
-        ],
-        [
-            1700870100,
-            37717.4856,
-            1,
-            18.1481
-        ],
-        [
-            1700870400,
-            37720.9603,
-            1,
-            18.1438
-        ],
-        [
-            1700870700,
-            37710.9835,
-            1,
-            18.1446
-        ],
-        [
-            1700871000,
-            37705.8175,
-            1,
-            18.1328
-        ],
-        [
-            1700871300,
-            37715.4083,
-            1,
-            18.119
-        ],
-        [
-            1700871600,
-            37734.8561,
-            1,
-            18.1323
-        ],
-        [
-            1700871900,
-            37732.9254,
-            1,
-            18.1382
-        ],
-        [
-            1700872200,
-            37760.456,
-            1,
-            18.1565
-        ],
-        [
-            1700872500,
-            37758.6513,
-            1,
-            18.1595
-        ],
-        [
-            1700872800,
-            37752.3576,
-            1,
-            18.1639
-        ],
-        [
-            1700873100,
-            37769.7505,
-            1,
-            18.1823
-        ],
-        [
-            1700873400,
-            37758.1964,
-            1,
-            18.1758
-        ],
-        [
-            1700873700,
-            37730.1529,
-            1,
-            18.1802
-        ],
-        [
-            1700874000,
-            37726.507,
-            1,
-            18.2085
-        ],
-        [
-            1700874300,
-            37747.492,
-            1,
-            18.1715
-        ],
-        [
-            1700874600,
-            37741.236,
-            1,
-            18.1566
-        ],
-        [
-            1700874900,
-            37741.5224,
-            1,
-            18.1509
-        ],
-        [
-            1700875200,
-            37753.4585,
-            1,
-            18.1665
-        ],
-        [
-            1700875500,
-            37741.1271,
-            1,
-            18.1666
-        ],
-        [
-            1700875800,
-            37744.1497,
-            1,
-            18.1571
-        ],
-        [
-            1700876100,
-            37768.8699,
-            1,
-            18.1619
-        ],
-        [
-            1700876400,
-            37769.8011,
-            1,
-            18.1658
-        ],
-        [
-            1700876700,
-            37777.1319,
-            1,
-            18.1729
-        ],
-        [
-            1700877000,
-            37774.7267,
-            1,
-            18.1589
-        ],
-        [
-            1700877300,
-            37810.3272,
-            1,
-            18.1442
-        ],
-        [
-            1700877600,
-            37797.2438,
-            1,
-            18.134
-        ],
-        [
-            1700877900,
-            37785.535,
-            1,
-            18.156
-        ],
-        [
-            1700878200,
-            37780.2429,
-            1,
-            18.162
-        ],
-        [
-            1700878500,
-            37769.8657,
-            1,
-            18.1693
-        ],
-        [
-            1700878800,
-            37747.3171,
-            1,
-            18.1699
-        ],
-        [
-            1700879100,
-            37745.5412,
-            1,
-            18.1613
-        ],
-        [
-            1700879400,
-            37728.9645,
-            1,
-            18.146
-        ],
-        [
-            1700879700,
-            37774.9943,
-            1,
-            18.1405
-        ],
-        [
-            1700880000,
-            37799.6347,
-            1,
-            18.1409
-        ],
-        [
-            1700880300,
-            37800.6445,
-            1,
-            18.1324
-        ],
-        [
-            1700880600,
-            37825.5427,
-            1,
-            18.1442
-        ],
-        [
-            1700880900,
-            37818.9844,
-            1,
-            18.1493
-        ],
-        [
-            1700881200,
-            37827.1876,
-            1,
-            18.1515
-        ],
-        [
-            1700881500,
-            37827.8971,
-            1,
-            18.1629
-        ],
-        [
-            1700881800,
-            37825.6758,
-            1,
-            18.1582
-        ],
-        [
-            1700882100,
-            37828.2372,
-            1,
-            18.1542
-        ],
-        [
-            1700882400,
-            37838.2334,
-            1,
-            18.1515
-        ],
-        [
-            1700882700,
-            37845.3956,
-            1,
-            18.1442
-        ],
-        [
-            1700883000,
-            37837.0021,
-            1,
-            18.1385
-        ],
-        [
-            1700883300,
-            37835.3792,
-            1,
-            18.1361
-        ],
-        [
-            1700883600,
-            37823.8236,
-            1,
-            18.1477
-        ],
-        [
-            1700883900,
-            37824.5124,
-            1,
-            18.1313
-        ],
-        [
-            1700884200,
-            37785.7787,
-            1,
-            18.1192
-        ],
-        [
-            1700884500,
-            37797.0105,
-            1,
-            18.1304
-        ]
-    ];
-
-    var chart2 = chart.map(function (val) {
-        return val.slice(0, -2);
-    });
-
-    for (let i = 0; i < chart2.length; i++) {
-        chart2[i][0] = chart2[i][0] * 1000;
-    }
+    useEffect(() => {
+		Axios.get(
+		  `https://openapiv1.coinstats.app/coins/${data.id}/charts?period=${period}`, {
+		  method: 'GET',
+		  headers: {
+			accept: 'application/json',
+			'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
+		  }
+		}
+		).then((res) => {
+		  const chartData = [...res.data].map(row => [row[0], row[1]]);
+          for (let i = 0; i < chartData.length; i++) {
+            chartData[i][0] = chartData[i][0] * 1000;
+        }
+		  setChart(chartData);
+		});
+	  }, [period]);
 
     const options = {
         xaxis: {
+            tooltip: {
+                enabled: false
+              },
             axisBorder: {
                 color: getComputedStyle(document.body).getPropertyValue('--textColor'),
             },
@@ -449,7 +42,8 @@ function Info({ id, go, data, currency }) {
             },
             type: 'datetime',
             labels: {
-                format: 'HH:MM',
+                datetimeUTC: false,
+                format: 'hh:mm',
                 style: {
                     fontSize: '12px',
                     cssClass: 'chart-labels'
@@ -480,6 +74,9 @@ function Info({ id, go, data, currency }) {
         dataLabels: {
             enabled: false
         },
+        stroke: {
+            width: 2
+        },
         fill: {
             type: "gradient",
             gradient: {
@@ -489,6 +86,18 @@ function Info({ id, go, data, currency }) {
                 stops: [0, 95]
             }
         },
+        tooltip: {
+            marker: {
+                show: false
+            },
+            theme: 'chart-tooltip',
+            x: {
+                format: 'hh:mm'
+            },
+            y: {
+                formatter: (value) => { return currency.symbol + convertToPrice(value); }
+            }
+        },
         grid: {
             borderColor: getComputedStyle(document.body).getPropertyValue('--darkGray'),
         }
@@ -496,7 +105,8 @@ function Info({ id, go, data, currency }) {
 
     const series = [
         {
-            data: chart2
+            name: data.name,
+            data: chart
         }
     ];
 
@@ -533,7 +143,7 @@ function Info({ id, go, data, currency }) {
                 <div className="text-container sided">
                     <span className="text-24">{currency.symbol + convertToPrice(data.price)}</span>
                 </div>
-                <Chart options={options} series={series} type="area" />
+                <Chart height='30%' options={options} series={series} type="area" />
             </div>
             <div className="bottom"></div>
             <div className="navigationBar"></div>
