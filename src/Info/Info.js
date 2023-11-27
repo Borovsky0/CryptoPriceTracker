@@ -11,29 +11,39 @@ function Info({ id, go, data, currency }) {
     const [period, setPeriod] = useState('24h'); // 24h, 1w, 1m, 3m, 6m, 1y, all
     const [chart, setChart] = useState([]);
 
+    const myHashMap = {
+        '24h': { label: 'hh:mm', tooltip: 'hh:mm' },
+        '1w': { label: 'dd.MM', tooltip: 'dd MMM hh:mm' },
+        '1m': { label: 'dd.MM', tooltip: 'dd MMM' },
+        '3m': { label: 'dd.MM', tooltip: 'dd MMM' },
+        '6m': { label: 'MMM', tooltip: 'dd MMM' },
+        '1y': { label: 'MMM', tooltip: 'dd MMM yyyy' },
+        'all': { label: 'yyyy', tooltip: 'dd MMM yyyy' },
+    };
+
     useEffect(() => {
-		Axios.get(
-		  `https://openapiv1.coinstats.app/coins/${data.id}/charts?period=${period}`, {
-		  method: 'GET',
-		  headers: {
-			accept: 'application/json',
-			'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
-		  }
-		}
-		).then((res) => {
-		  const chartData = [...res.data].map(row => [row[0], row[1]]);
-          for (let i = 0; i < chartData.length; i++) {
-            chartData[i][0] = chartData[i][0] * 1000;
+        Axios.get(
+            `https://openapiv1.coinstats.app/coins/${data.id}/charts?period=${period}`, {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
+            }
         }
-		  setChart(chartData);
-		});
-	  }, [period]);
+        ).then((res) => {
+            const chartData = [...res.data].map(row => [row[0], row[1]]);
+            for (let i = 0; i < chartData.length; i++) {
+                chartData[i][0] = chartData[i][0] * 1000;
+            }
+            setChart(chartData);
+        });
+    }, [period]);
 
     const options = {
         xaxis: {
             tooltip: {
                 enabled: false
-              },
+            },
             axisBorder: {
                 color: getComputedStyle(document.body).getPropertyValue('--textColor'),
             },
@@ -43,7 +53,7 @@ function Info({ id, go, data, currency }) {
             type: 'datetime',
             labels: {
                 datetimeUTC: false,
-                format: 'hh:mm',
+                format: myHashMap[period].label,
                 style: {
                     fontSize: '12px',
                     cssClass: 'chart-labels'
@@ -92,7 +102,7 @@ function Info({ id, go, data, currency }) {
             },
             theme: 'chart-tooltip',
             x: {
-                format: 'hh:mm'
+                format: myHashMap[period].tooltip
             },
             y: {
                 formatter: (value) => { return currency.symbol + convertToPrice(value); }
@@ -115,7 +125,7 @@ function Info({ id, go, data, currency }) {
             <div className="statusBar"></div>
             <div className="top">
                 <svg className="button icon" height="24" width="24" onClick={() => go('home', data)}>
-                    <path d="M 13 4 L 5 12 M 5 12 L 13 20 M 5 12" stroke-width="2" stroke-linecap="round" />
+                    <path d="M 13 4 L 5 12 M 5 12 L 13 20 M 5 12" strokeWidth="2" strokeLinecap="round" />
                 </svg>
                 <div className="container logo-and-symbol">
                     <img src={data.icon} alt="logo" width={"36px"} />
@@ -132,18 +142,28 @@ function Info({ id, go, data, currency }) {
                         17.2305L7.60881 19.618C6.84796 20.0879 5.90001 19.3992 6.1118 18.5304L7.18785 
                         14.1161C7.2775 13.7483 7.1518 13.3614 6.86309 13.1166L3.3979 10.1778C2.71588 
                         9.59942 3.07796 8.48504 3.96971 8.41798L8.50046 8.07727C8.87794 8.04889 9.20704 
-                        7.80979 9.35068 7.45955L11.0748 3.25583Z" stroke-width="2" stroke-linecap="round"
+                        7.80979 9.35068 7.45955L11.0748 3.25583Z" strokeWidth="2" strokeLinecap="round"
                     />
                 </svg>
             </div>
             <div className="body">
                 <div className="text-container sided">
                     <span className="text-16">{data.name}</span>
+                    <span className="text-12 rank-info">#{data.rank}</span>
                 </div>
                 <div className="text-container sided">
                     <span className="text-24">{currency.symbol + convertToPrice(data.price)}</span>
                 </div>
                 <Chart height='30%' options={options} series={series} type="area" />
+                <div className="container period">
+                    <button className={`button period ${period === '24h' ? 'active' : ''}`} onClick={() => setPeriod('24h')}>24h</button>
+                    <button className={`button period ${period === '1w' ? 'active' : ''}`} onClick={() => setPeriod('1w')}>1w</button>
+                    <button className={`button period ${period === '1m' ? 'active' : ''}`} onClick={() => setPeriod('1m')}>1m</button>
+                    <button className={`button period ${period === '3m' ? 'active' : ''}`} onClick={() => setPeriod('3m')}>3m</button>
+                    <button className={`button period ${period === '6m' ? 'active' : ''}`} onClick={() => setPeriod('6m')}>6m</button>
+                    <button className={`button period ${period === '1y' ? 'active' : ''}`} onClick={() => setPeriod('1y')}>1y</button>
+                    <button className={`button period ${period === 'all' ? 'active' : ''}`} onClick={() => setPeriod('all')}>all</button>
+                </div>
             </div>
             <div className="bottom"></div>
             <div className="navigationBar"></div>

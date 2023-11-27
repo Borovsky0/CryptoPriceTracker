@@ -12,7 +12,8 @@ export const convertToIntegerPrice = (value) => {
         parseInt(value / 1.0e+6) + "M" : value > 10 ?
             parseInt(value) : value > 0.1 ?
                 value.toFixed(4) : value > 0.01 ?
-                    value.toFixed(5) : value.toFixed(8)
+                    value.toFixed(5) : value === 0 ?
+                        0 : value.toFixed(8)
 }
 
 // Конвертация числа в систему СИ с буквенным обозначением

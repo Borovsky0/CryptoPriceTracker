@@ -16,6 +16,14 @@
     fill: var(--textColor);
 }
 
+.rank-info {
+    margin-left: 5px;
+    padding: 5px;
+    color: var(--lightGray);
+    background-color: var(--darkGray);
+    border-radius: var(--padding-small);
+}
+
 /* CSS элементы библиотеки apexcharts */
 
 .apexcharts-tooltip {
@@ -23,7 +31,7 @@
     color: var(--textColor);
 }
 
-.apexcharts-tooltip-series-group  { 
+.apexcharts-tooltip-series-group {
     padding-left: calc(var(--padding-small)/2) !important;
     padding-right: calc(var(--padding-small)/2) !important;
 }
@@ -32,11 +40,41 @@
     padding: 0 0 calc(var(--padding-small)/2) 0 !important;
 }
 
-.apexcharts-tooltip-title{
+.apexcharts-tooltip-title {
     padding: calc(var(--padding-small)/2) calc(var(--padding-small)/2) 0 calc(var(--padding-small)/2) !important;
     margin: 0 !important;
 }
 
 .apexcharts-tooltip-series-group.apexcharts-active {
     padding-bottom: 0px !important;
+}
+
+/* Стили для отображения селектора периода */
+
+.container.period {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--padding-small);
+    background-color: var(--darkGray);
+    border-radius: var(--padding-small);
+    width: 100%;
+}
+
+.button.period {
+    color: var(--lightGray);
+    border-radius: var(--padding-small);
+    border: none;
+    font-size: 12px;
+    background-color: var(--darkGray);
+    font-family: 'Inter', sans-serif;
+    margin: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.button.period.active {
+    color: var(--textColor);
+    background-color: var(--lightGray);
 }

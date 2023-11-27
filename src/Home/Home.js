@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Axios from 'axios'
-import {convertToPrice, convertToSI} from '../Functions.js';
+import { convertToPrice, convertToSI } from '../Functions.js';
 import '../global.css';
 import './home.css';
 import bridge from '@vkontakte/vk-bridge';
 import Popup from 'reactjs-popup';
 
-function Home({id, go, setGlobalCurrency, currency}) {
+function Home({ id, go, setGlobalCurrency, currency }) {
   const [search, setSearch] = useState("");
   const [searchState, setSearchState] = useState(false);
   const [crypto, setCrypto] = useState([]);
@@ -17,7 +17,7 @@ function Home({id, go, setGlobalCurrency, currency}) {
   const searchRef = useRef(null);
   const tableRef = useRef(null);
   const style = getComputedStyle(document.body);
-  
+
   const updateData = () => {
     Axios.get(
       `https://openapiv1.coinstats.app/coins?limit=100&currency=${currency.value}`, {
@@ -201,18 +201,18 @@ function Home({id, go, setGlobalCurrency, currency}) {
             </div>
           )}
         </Popup>
-        <input 
-        className={`search ${searchState ? 'active' : ''}`}
-        ref={searchRef} 
-        autoFocus
-        type="text"
-        placeholder="Search"
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
+        <input
+          className={`search ${searchState ? 'active' : ''}`}
+          ref={searchRef}
+          autoFocus
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
           }} />
         <svg className={`close-button ${searchState ? 'active' : ''}`} height="24" width="24" onClick={() => closeSearch()}>
-          <path d="M16 8L8 16M8 8L16 16" stroke-width="2" stroke-linecap="round"/>
+          <path d="M16 8L8 16M8 8L16 16" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </div>
       <div className="body">
