@@ -154,6 +154,7 @@ svg {
 
 svg.icon {
     stroke: var(--textColor);
+    fill: none;
     cursor: pointer;
 }
 
@@ -168,7 +169,7 @@ svg.filled {
     border-radius: 6px;
     border: none;
     font-size: 12px;
-    background-color: var(--lightGray);
+    background-color: var(--bgGray);
     font-family: 'Inter', sans-serif;
     margin: 5px;
     padding-left: 10px;

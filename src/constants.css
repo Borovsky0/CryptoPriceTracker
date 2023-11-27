@@ -16,15 +16,15 @@
 [data-theme="light"] {
     --bgColor: #FFFFFF;
     --textColor: #000000;
-    --lightGray: #E1E1E1;
-    --darkGray: #E0E0E0;
+    --textGray: #A0A0A0;
+    --bgGray: #E1E1E1;
     --delimeter: rgba(0, 0, 0, .2);
 }
   
 [data-theme="dark"] {
     --bgColor: #000000;
     --textColor: #FFFFFF;
-    --lightGray: #808080;
-    --darkGray: #202020;
+    --textGray: #808080;
+    --bgGray: #202020;
     --delimeter: rgba(255, 255, 255, .2);
 }

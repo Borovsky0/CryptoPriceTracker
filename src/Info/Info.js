@@ -109,7 +109,7 @@ function Info({ id, go, data, currency }) {
             }
         },
         grid: {
-            borderColor: getComputedStyle(document.body).getPropertyValue('--darkGray'),
+            borderColor: getComputedStyle(document.body).getPropertyValue('--bgGray'),
         }
     };
 

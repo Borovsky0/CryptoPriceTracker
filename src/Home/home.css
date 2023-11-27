@@ -60,7 +60,7 @@
 .popup-row {
     font-size: 12px;
     color: var(--textColor);
-    background-color: var(--lightGray);
+    background-color: var(--textGray);
     font-family: 'Inter', sans-serif;
     padding: 5px;
     border-bottom: 1px solid var(--delimeter);
@@ -70,7 +70,7 @@
 
 .popup-content {
     margin: auto;
-    background: var(--lightGray);
+    background: var(--textGray);
     padding: 5px;
     border-radius: 6px;
 }

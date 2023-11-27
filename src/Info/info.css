@@ -19,15 +19,15 @@
 .rank-info {
     margin-left: 5px;
     padding: 5px;
-    color: var(--lightGray);
-    background-color: var(--darkGray);
+    color: var(--gray);
+    background-color: var(--bgGray);
     border-radius: var(--padding-small);
 }
 
 /* CSS элементы библиотеки apexcharts */
 
 .apexcharts-tooltip {
-    background: var(--darkGray);
+    background: var(--bgGray);
     color: var(--textColor);
 }
 
@@ -55,17 +55,17 @@
     display: flex;
     justify-content: space-between;
     margin-top: var(--padding-small);
-    background-color: var(--darkGray);
+    background-color: var(--bgGray);
     border-radius: var(--padding-small);
     width: 100%;
 }
 
 .button.period {
-    color: var(--lightGray);
+    color: var(--textGray);
     border-radius: var(--padding-small);
     border: none;
     font-size: 12px;
-    background-color: var(--darkGray);
+    background-color: var(--bgGray);
     font-family: 'Inter', sans-serif;
     margin: 5px;
     padding-left: 10px;
@@ -76,5 +76,5 @@
 
 .button.period.active {
     color: var(--textColor);
-    background-color: var(--lightGray);
+    background-color: var(--textGray);
 }
