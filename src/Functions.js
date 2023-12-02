@@ -9,7 +9,7 @@ export const convertToPrice = (value) => {
 
 export const convertToIntegerPrice = (value) => {
     return value > 1.0e+6 ?
-        parseInt(value / 1.0e+6) + "M" : value > 10 ?
+        parseInt(value / 1.0e+6) + "M" : value > 1 ?
             parseInt(value) : value > 0.1 ?
                 value.toFixed(4) : value > 0.01 ?
                     value.toFixed(5) : value === 0 ?

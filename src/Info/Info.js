@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from 'axios'
 import "../global.css";
 import './info.css';
-import { convertToPrice, convertToIntegerPrice } from '../Functions.js';
+import { convertToPrice, convertToIntegerPrice, convertToSI } from '../Functions.js';
 import Chart from 'react-apexcharts'
 
 function Info({ id, go, data, currency }) {
@@ -153,9 +153,10 @@ function Info({ id, go, data, currency }) {
                 </div>
                 <div className="text-container sided">
                     <span className="text-24">{currency.symbol + convertToPrice(data.price)}</span>
+                    <span className={data.priceChange1d < 0 ? "text-14 red percent-info" : "text-14 green percent-info"}>{data.priceChange1d}%</span>
                 </div>
                 <Chart height='30%' options={options} series={series} type="area" />
-                <div className="container period">
+                <div className="container gray period">
                     <button className={`button period ${period === '24h' ? 'active' : ''}`} onClick={() => setPeriod('24h')}>24h</button>
                     <button className={`button period ${period === '1w' ? 'active' : ''}`} onClick={() => setPeriod('1w')}>1w</button>
                     <button className={`button period ${period === '1m' ? 'active' : ''}`} onClick={() => setPeriod('1m')}>1m</button>
@@ -163,6 +164,28 @@ function Info({ id, go, data, currency }) {
                     <button className={`button period ${period === '6m' ? 'active' : ''}`} onClick={() => setPeriod('6m')}>6m</button>
                     <button className={`button period ${period === '1y' ? 'active' : ''}`} onClick={() => setPeriod('1y')}>1y</button>
                     <button className={`button period ${period === 'all' ? 'active' : ''}`} onClick={() => setPeriod('all')}>all</button>
+                </div>
+                <div className="container gray">
+                    <div className="info-grid">
+                        <div className="text-container">
+                            <div className="text-12 gray">Market cap</div>
+                            <div className="text-14">${convertToSI(data.marketCap)}</div>
+                        </div>
+                        <div className="text-container">
+                            <div className="text-12 gray">Trading volume 24h</div>
+                            <div className="text-14">${convertToSI(data.volume)}</div>
+                        </div>
+                    </div>
+                    <div className="info-grid">
+                        <div className="text-container">
+                            <div className="text-12 gray">Available supply</div>
+                            <div className="text-14">{convertToSI(data.availableSupply)}</div>
+                        </div>
+                        <div className="text-container">
+                            <div className="text-12 gray">Total supply</div>
+                            <div className="text-14">{convertToSI(data.totalSupply)}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="bottom"></div>
