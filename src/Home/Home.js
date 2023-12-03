@@ -3,20 +3,16 @@ import Axios from 'axios'
 import { convertToPrice, convertToSI } from '../Functions.js';
 import '../global.css';
 import './home.css';
-import bridge from '@vkontakte/vk-bridge';
 import Popup from 'reactjs-popup';
 
-function Home({ id, go, setGlobalCurrency, currency }) {
+function Home({ id, go, theme, currency, showFullName }) {
   const [search, setSearch] = useState("");
   const [searchState, setSearchState] = useState(false);
   const [crypto, setCrypto] = useState([]);
-  const [showFullName, setShowFullName] = useState(true);
-  const [theme, setTheme] = useState("dark");
   const [sortConfig, setSortConfig] = useState({ key: "rank", direction: "asc" });
   const [priceChange, setPriceChange] = useState({ id: 'priceChange1d', text: '1D%' });
   const searchRef = useRef(null);
   const tableRef = useRef(null);
-  const style = getComputedStyle(document.body);
 
   const updateData = () => {
     Axios.get(
@@ -65,34 +61,6 @@ function Home({ id, go, setGlobalCurrency, currency }) {
   useEffect(() => {
     updateData();
   }, [currency]);
-
-  // Поменять тему с темной на светлую и наоборот
-  const switchTheme = () => {
-    let color;
-    if (theme === "light") {
-      setTheme("dark")
-      color = "--black";
-    }
-    else {
-      setTheme("light")
-      color = "--white";
-    }
-    bridge.send('VKWebAppSetViewSettings', {
-      status_bar_style: 'dark',
-      action_bar_color: style.getPropertyValue(color),
-      navigation_bar_color: style.getPropertyValue(color)
-    });
-  };
-
-  // Поменять отображение названия/символа
-  const switchNames = () => {
-    showFullName ? setShowFullName(false) : setShowFullName(true);
-  };
-
-  // Заменяет тему при изменении параметра theme
-  useEffect(() => {
-    document.body.setAttribute("data-theme", theme);
-  }, [theme]);
 
   // Прокручивает таблицу до верха
   const scrollToTop = () => {
@@ -179,28 +147,6 @@ function Home({ id, go, setGlobalCurrency, currency }) {
             </div>
           )}
         </Popup>
-        <Popup
-          trigger={<button className="button default">{currency.value} ⌵</button>}
-          position="bottom center"
-          closeOnDocumentClick
-        >
-          {close => (
-            <div>
-              <div className="popup-row" onClick={() => {
-                setGlobalCurrency('USD');
-                close();
-              }}>USD {currency.value === 'USD' ? '•' : ''}</div>
-              <div className="popup-row" onClick={() => {
-                setGlobalCurrency('EUR');
-                close();
-              }}>EUR {currency.value === 'EUR' ? '•' : ''}</div>
-              <div className="popup-row" onClick={() => {
-                setGlobalCurrency('RUB');
-                close();
-              }}>RUB {currency.value === 'RUB' ? '•' : ''}</div>
-            </div>
-          )}
-        </Popup>
         <input
           className={`search ${searchState ? 'active' : ''}`}
           ref={searchRef}
@@ -211,7 +157,7 @@ function Home({ id, go, setGlobalCurrency, currency }) {
           onChange={(e) => {
             setSearch(e.target.value);
           }} />
-        <svg className={`close-button ${searchState ? 'active' : ''}`} height="24" width="24" onClick={() => closeSearch()}>
+        <svg className={`close-button icon ${searchState ? 'active' : ''}`} height="24" width="24" onClick={() => closeSearch()}>
           <path d="M16 8L8 16M8 8L16 16" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </div>
@@ -260,7 +206,7 @@ function Home({ id, go, setGlobalCurrency, currency }) {
               })
               .map((val, id) => {
                 return (
-                  <tr className="tr-border" id={id} onClick={() => go('info', val)} >
+                  <tr className="tr-border" key={id} onClick={() => go('info', val)} >
                     <td className="text-container end">
                       <span className="text-12 gray">{val.rank}</span>
                     </td>
@@ -288,9 +234,44 @@ function Home({ id, go, setGlobalCurrency, currency }) {
         </table>
       </div>
       <div className="bottom">
-        <div className="container buttons-3">
-          <button className="button default" onClick={() => switchTheme()}>Theme</button>
-          <button className="button default" onClick={() => switchNames()}>Names</button>
+        <div className="container elements-3">
+          <svg className="button icon center" height="24" width="24" onClick={() => go('home')}>
+            <path d="M16 11V16M8 11V16M12 8V16M7 21H17C19.2091 21 21 19.2091 21 17V7C21 
+                    4.79086 19.2091 3 17 3H7C4.79086 3 3 4.79086 3 7V17C3 19.2091 4.79086 21 7 21Z"
+              strokeWidth="2" strokeLinecap="round"
+            />
+          </svg>
+          <svg className="button icon center" height="24" width="24" >
+            <path fill-rule="evenodd" clip-rule="evenodd" 
+            d="M3 12H21M7 12V14M17 12V14M8 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 
+            7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 
+            18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 
+            6.11984 21 7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 
+            19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 
+            8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H16M8 
+            7V6C8 5.06812 8 4.60218 8.15224 4.23463C8.35523 3.74458 8.74458 3.35523 9.23463 3.15224C9.60218 
+            3 10.0681 3 11 3H13C13.9319 3 14.3978 3 14.7654 3.15224C15.2554 3.35523 15.6448 3.74458 15.8478 
+            4.23463C16 4.60218 16 5.06812 16 6V7M8 7H16" strokeWidth="2" strokeLinecap="round"
+            />
+          </svg>
+          <svg className="button icon center" height="24" width="24" onClick={() => go('settings')}>
+            <path d="M10.5213 3.62368C11.3147 2.75255 12.6853 2.75255 13.4787 3.62368L14.2142 
+                    4.43128C14.6151 4.87154 15.1914 5.11025 15.7862 5.08245L16.8774 5.03146C18.0543 
+                    4.97645 19.0236 5.94568 18.9685 7.12264L18.9176 8.21377C18.8898 8.80859 19.1285 
+                    9.38487 19.5687 9.78582L20.3763 10.5213C21.2475 11.3147 21.2475 12.6853 20.3763 
+                    13.4787L19.5687 14.2142C19.1285 14.6151 18.8898 15.1914 18.9176 15.7862L18.9685 
+                    16.8774C19.0236 18.0543 18.0543 19.0236 16.8774 18.9685L15.7862 18.9176C15.1914 
+                    18.8898 14.6151 19.1285 14.2142 19.5687L13.4787 20.3763C12.6853 21.2475 11.3147 
+                    21.2475 10.5213 20.3763L9.78582 19.5687C9.38487 19.1285 8.80859 18.8898 8.21376 
+                    18.9176L7.12264 18.9685C5.94568 19.0236 4.97645 18.0543 5.03146 16.8774L5.08245 
+                    15.7862C5.11025 15.1914 4.87154 14.6151 4.43128 14.2142L3.62368 13.4787C2.75255 
+                    12.6853 2.75255 11.3147 3.62368 10.5213L4.43128 9.78582C4.87154 9.38487 5.11025 
+                    8.80859 5.08245 8.21376L5.03146 7.12264C4.97645 5.94568 5.94568 4.97645 7.12264 
+                    5.03146L8.21376 5.08245C8.80859 5.11025 9.38487 4.87154 9.78583 4.43128L10.5213 
+                    3.62368Z" strokeWidth="2" strokeLinecap="round"
+            />
+            <circle cx="12" cy="12" r="3" strokeWidth="2" />
+          </svg>
         </div>
       </div>
       <div className="navigationBar"></div>

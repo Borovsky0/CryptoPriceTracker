@@ -28,12 +28,6 @@
     margin-left: 8px;
 }
 
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    font-family: 'Inter', sans-serif;
-}
-
 /* CSS элементы библиотеки apexcharts */
 
 .apexcharts-tooltip {
@@ -60,13 +54,6 @@
 }
 
 /* Стили для отображения селектора периода */
-
-.container.gray {
-    margin-top: var(--padding-small);
-    background-color: var(--bgGray);
-    border-radius: var(--padding-small);
-    width: 100%;
-}
 
 .container.period {
     display: flex;

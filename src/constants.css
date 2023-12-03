@@ -5,6 +5,8 @@
     --gray: #808080;
     --black: #000000;
     --white: #FFFFFF;
+    --main: #0080FF;
+    --accent: #80C0FF;
     /* Отступы и размеры */
     --padding-small: 0.75em;
     --padding-big: 10px;

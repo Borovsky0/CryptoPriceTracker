@@ -7,6 +7,8 @@ import Chart from 'react-apexcharts'
 
 function Info({ id, go, data, currency }) {
 
+    const style = getComputedStyle(document.body);
+
     const [favorite, setFavorite] = useState(false);
     const [period, setPeriod] = useState('24h'); // 24h, 1w, 1m, 3m, 6m, 1y, all
     const [chart, setChart] = useState([]);
@@ -40,6 +42,7 @@ function Info({ id, go, data, currency }) {
     }, [period]);
 
     const options = {
+        colors: [style.getPropertyValue('--main')],
         xaxis: {
             tooltip: {
                 enabled: false
@@ -77,6 +80,7 @@ function Info({ id, go, data, currency }) {
         chart: {
             fontFamily: 'Inter, sans-serif',
             width: '100%',
+            foreColor: '#000000',
             toolbar: {
                 show: false
             }
@@ -166,17 +170,17 @@ function Info({ id, go, data, currency }) {
                     <button className={`button period ${period === 'all' ? 'active' : ''}`} onClick={() => setPeriod('all')}>all</button>
                 </div>
                 <div className="container gray">
-                    <div className="info-grid">
+                    <div className="two-grid">
                         <div className="text-container">
                             <div className="text-12 gray">Market cap</div>
-                            <div className="text-14">${convertToSI(data.marketCap)}</div>
+                            <div className="text-14">{currency.symbol}{convertToSI(data.marketCap)}</div>
                         </div>
                         <div className="text-container">
                             <div className="text-12 gray">Trading volume 24h</div>
-                            <div className="text-14">${convertToSI(data.volume)}</div>
+                            <div className="text-14">{currency.symbol}{convertToSI(data.volume)}</div>
                         </div>
                     </div>
-                    <div className="info-grid">
+                    <div className="two-grid">
                         <div className="text-container">
                             <div className="text-12 gray">Available supply</div>
                             <div className="text-14">{convertToSI(data.availableSupply)}</div>

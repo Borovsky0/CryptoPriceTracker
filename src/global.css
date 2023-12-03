@@ -46,11 +46,16 @@
     background-color: var(--bgColor);
 }
 
-/* Стили длятекста размером 16 */
+/* Стили для текста размером 24 */
 
 .text-24 {
     font-size: 24px;
     color: var(--textColor);
+}
+
+.text-24.center {
+    align-self: center;
+    justify-self: center;
 }
 
 /* Стили длятекста размером 16 */
@@ -79,7 +84,7 @@
 }
 
 .text-14.green {
-    color: var(--green);    
+    color: var(--green);
 }
 
 /* Стили для текста размером 12 */
@@ -95,6 +100,20 @@
 }
 
 /* Контейнеры */
+
+.two-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-family: 'Inter', sans-serif;
+}
+
+.container.gray {
+    margin-top: var(--padding-small);
+    background-color: var(--bgGray);
+    border-radius: var(--padding-small);
+    margin-left: var(--padding-big);
+    margin-right: var(--padding-big);
+}
 
 .text-container {
     padding: var(--padding-small);
@@ -124,6 +143,12 @@
     display: grid;
     height: calc(var(--padding-big)*2);
     grid-template-columns: 2fr 1fr;
+}
+
+.container.elements-3 {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 /* Стандартные CSS элементы */
@@ -162,11 +187,23 @@ svg.filled {
     fill: var(--textColor);
 }
 
+.popup-content {
+    margin: auto;
+    background: var(--bgGray);
+    padding: 5px;
+    border-radius: var(--padding-small);
+}
+
+.popup-arrow {
+    color: transparent;
+    stroke: transparent;
+}
+
 /* Кнопки */
 
 .button.default {
     color: var(--textColor);
-    border-radius: 6px;
+    border-radius: var(--padding-small);
     border: none;
     font-size: 12px;
     background-color: var(--bgGray);
@@ -180,4 +217,10 @@ svg.filled {
 
 .button.icon {
     padding: 6px;
+    align-self: center;
+    justify-self: left;
+}
+
+.button.icon.center {
+    justify-self: center;
 }

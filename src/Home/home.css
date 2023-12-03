@@ -25,12 +25,6 @@
     display: inline-flex;
 }
 
-.container.buttons-3 {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
 .container.name-and-cap {
     display: flex;
     flex-direction: column;
@@ -60,25 +54,13 @@
 .popup-row {
     font-size: 12px;
     color: var(--textColor);
-    background-color: var(--textGray);
+    background-color: var(--bgGray);
     font-family: 'Inter', sans-serif;
     padding: 5px;
     border-bottom: 1px solid var(--delimeter);
 }
 
 .popup-row:last-child { border-bottom: none; }
-
-.popup-content {
-    margin: auto;
-    background: var(--textGray);
-    padding: 5px;
-    border-radius: 6px;
-}
-
-.popup-arrow {
-    color: transparent;
-    stroke: transparent;
-}
 
 .tr-border {
     border-radius: 12px;
