@@ -4,6 +4,13 @@
 /* Основная сетка приложения (grid) и её элементы: */
 /* top, body, bottom, а также statusBar и navigationBar для iOS*/
 
+body, html, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
 .grid {
     display: grid;
     grid-template-rows: var(--iOStop) 1fr 13fr 1fr var(--iOSbottom);

@@ -29,6 +29,7 @@ function Info({ id, go, data, currency }) {
             method: 'GET',
             headers: {
                 accept: 'application/json',
+                'cache-control': 'no-cache',
                 'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
             }
         }
@@ -39,7 +40,7 @@ function Info({ id, go, data, currency }) {
             }
             setChart(chartData);
         });
-    }, [period]);
+    }, [period, data.id]);
 
     const options = {
         colors: [style.getPropertyValue('--main')],

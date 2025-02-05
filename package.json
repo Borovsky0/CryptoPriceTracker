@@ -1,58 +1,40 @@
 {
-    "name": "mini-app",
-    "version": "0.0.0",
-    "scripts": {
-        "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
-        "build": "react-scripts build",
-        "predeploy": "npm run build",
-        "deploy": "vk-miniapps-deploy",
-        "tunnel": "vk-tunnel --insecure=1 --http-protocol=https --ws-protocol=wss --host=0.0.0.0 --port=10888"
-    },
-    "engines": {
-        "node": ">=12.0.0"
-    },
-    "keywords": [],
-    "license": "MIT",
-    "dependencies": {
-        "@vkontakte/icons": "2.7.0",
-        "@vkontakte/vk-bridge": "latest",
-        "@vkontakte/vk-miniapps-deploy": "0.0.25",
-        "@vkontakte/vk-tunnel": "^0.1.4",
-        "@vkontakte/vkui": "5.1.0",
-        "apexcharts": "^3.44.0",
-        "axios": "^1.5.1",
-        "babel-eslint": "^10.1.0",
-        "eruda": "^2.4.1",
-        "eruda-code": "^2.0.0",
-        "eruda-dom": "^2.0.0",
-        "prop-types": "^15.7.2",
-        "react": "^17.0.2",
-        "react-apexcharts": "^1.4.1",
-        "react-dom": "^17.0.2",
-        "react-switch": "^7.0.0",
-        "reactjs-popup": "^2.0.6"
-    },
-    "devDependencies": {
-        "cross-env": "^7.0.3",
-        "react-hot-loader": "^4.13.0",
-        "react-scripts": "^5.0.1"
-    },
-    "resolutions": {
-        "react-scripts/webpack-dev-server/yargs/yargs-parser": ">=18.1.2"
-    },
-    "overrides": {
-        "es5-ext@^0.10.50": "0.10.53"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    }
+  "name": "crypto-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apexcharts": "^4.4.0",
+    "axios": "^1.7.9",
+    "cra-template": "1.2.0",
+    "react": "^19.0.0",
+    "react-apexcharts": "^1.7.0",
+    "react-dom": "^19.0.0",
+    "react-scripts": "5.0.1",
+    "react-switch": "^7.1.0",
+    "reactjs-popup": "^2.0.6"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

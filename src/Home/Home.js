@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Axios from 'axios'
 import { convertToPrice, convertToSI } from '../Functions.js';
 import '../global.css';
@@ -14,22 +14,24 @@ function Home({ id, go, theme, currency, showFullName }) {
   const searchRef = useRef(null);
   const tableRef = useRef(null);
 
-  const updateData = () => {
+const updateData = useCallback(() => {
     Axios.get(
       `https://openapiv1.coinstats.app/coins?limit=100&currency=${currency.value}`, {
       method: 'GET',
       headers: {
         accept: 'application/json',
+        'cache-control': 'no-cache',
         'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
       }
     }
     ).then((res) => {
+      //console.log("Data received:", res.data.result);
       // Сортировка данных на основе текущей конфигурации сортировки
       const sortedData = [...res.data.result];
       sortedData.sort((a, b) => {
         const key = sortConfig.key;
         const direction = sortConfig.direction === "asc" ? 1 : -1;
-
+  
         if (a[key] < b[key]) {
           return -1 * direction;
         }
@@ -42,25 +44,23 @@ function Home({ id, go, theme, currency, showFullName }) {
       // Обновление состояния с отсортированными данными
       setCrypto(sortedData);
     });
-  };
+  }, [currency, sortConfig]);
 
   useEffect(() => {
     // Получение данных
     updateData();
 
     // Установка интервала для получения данных каждые 30 секунд
-    const intervalId = setInterval(() => {
-      updateData();
-    }, 10000);
+    const intervalId = setInterval(updateData, 30000);
 
     // Очистить интервал, когда компонент размонтирован
     return () => clearInterval(intervalId);
-  }, [sortConfig]); // Включение sortConfig в качестве зависимости для повторной выборки данных при изменении сортировки
+}, [sortConfig, updateData]); // Включение sortConfig в качестве зависимости для повторной выборки данных при изменении сортировки
 
   // Сделать новый запрос при изменении валюты
   useEffect(() => {
     updateData();
-  }, [currency]);
+  }, [currency, updateData]);
 
   // Прокручивает таблицу до верха
   const scrollToTop = () => {

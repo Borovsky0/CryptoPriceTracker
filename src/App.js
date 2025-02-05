@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
 import Axios from 'axios'
-import { View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol } from '@vkontakte/vkui';
-import '@vkontakte/vkui/dist/vkui.css';
+import { View } from './Components/View';
 
 import Home from './Home/Home';
 import Info from './Info/Info';
@@ -15,21 +13,6 @@ const App = () => {
 	const [showFullName, setShowFullName] = useState(true);
 	const [theme, setTheme] = useState('dark');
 	const [fiats, setFiats] = useState([]);
-	const [fetchedUser, setUser] = useState(null);
-
-	useEffect(() => {
-		async function fetchData() {
-			const user = await bridge.send('VKWebAppGetUserInfo');
-
-			await bridge.send('VKWebAppSetViewSettings', {
-				status_bar_style: 'dark',
-				action_bar_color: getComputedStyle(document.body).getPropertyValue('--bgColor'),
-				navigation_bar_color: getComputedStyle(document.body).getPropertyValue('--bgColor')
-			});
-			setUser(user);
-		}
-		fetchData();
-	}, []);
 
 	useEffect(() => {
 		Axios.get(
@@ -37,6 +20,7 @@ const App = () => {
 			method: 'GET',
 			headers: {
 				accept: 'application/json',
+				'cache-control': 'no-cache',
 				'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
 			}
 		}
@@ -70,22 +54,23 @@ const App = () => {
 	}
 
 	return (
-		<ConfigProvider>
-			<AdaptivityProvider>
-				<AppRoot>
-					<SplitLayout>
-						<SplitCol>
-							<View activePanel={activePanel}>
-								<Home id='home' go={go} theme={theme} currency={currency} showFullName={showFullName} />
-								<Settings id='settings' go={go} fiats={fiats} setGlobalCurrency={setGlobalCurrency} currency={currency}
-									setGlobalTheme={setGlobalTheme} theme={theme} setGlobalNames={setGlobalNames} showFullName={showFullName} />
-								<Info id='info' go={go} data={infoData} currency={currency} />
-							</View>
-						</SplitCol>
-					</SplitLayout>
-				</AppRoot>
-			</AdaptivityProvider>
-		</ConfigProvider>
+		<div className="app">
+			<View activePanel={activePanel}>
+				<Home id='home' go={go} theme={theme} currency={currency} showFullName={showFullName} />
+				<Settings 
+					id='settings' 
+					go={go} 
+					fiats={fiats} 
+					setGlobalCurrency={setGlobalCurrency} 
+					currency={currency}
+					setGlobalTheme={setGlobalTheme} 
+					theme={theme} 
+					setGlobalNames={setGlobalNames} 
+					showFullName={showFullName} 
+				/>
+				<Info id='info' go={go} data={infoData} currency={currency} />
+			</View>
+		</div>
 	);
 }
 

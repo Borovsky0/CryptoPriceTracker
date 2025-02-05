@@ -1,35 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
+import React from 'react';
 import "../global.css";
 import './settings.css';
 import Switch from "react-switch";
 import Popup from 'reactjs-popup';
 
 function Settings({ id, go, fiats, setGlobalCurrency, currency, setGlobalTheme, theme, setGlobalNames, showFullName }) {
-
     const style = getComputedStyle(document.body);
 
     // Поменять тему с темной на светлую и наоборот
     const switchTheme = () => {
-        let color;
-        if (theme === "light") {
-            setGlobalTheme("dark")
-            color = "--black";
-        }
-        else {
-            setGlobalTheme("light")
-            color = "--white";
-        }
-        bridge.send('VKWebAppSetViewSettings', {
-            status_bar_style: 'dark',
-            action_bar_color: style.getPropertyValue(color),
-            navigation_bar_color: style.getPropertyValue(color)
-        });
+        let newTheme = theme === "light" ? "dark" : "light";
+        setGlobalTheme(newTheme);
     };
 
     // Поменять отображение названия/символа
     const switchNames = () => {
-        showFullName ? setGlobalNames(false) : setGlobalNames(true);
+        setGlobalNames(!showFullName);
     };
 
     return (
@@ -97,7 +83,7 @@ function Settings({ id, go, fiats, setGlobalCurrency, currency, setGlobalTheme, 
                                         return (
                                             <tr key={val.name} onClick={() => {setGlobalCurrency(val.name); close();}}>
                                                 <td>
-                                                    <img className='container logo' src={val.imageUrl} width={'24px'} />
+                                                    <img className='container logo' src={val.imageUrl} width={'24px'} alt={`${val.name} logo`} />
                                                 </td>
                                                 <td>
                                                 <div className="text-container">
