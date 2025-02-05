@@ -4,8 +4,9 @@ import "../global.css";
 import './info.css';
 import { convertToPrice, convertToIntegerPrice, convertToSI } from '../Functions.js';
 import Chart from 'react-apexcharts'
+import { API_KEY } from '../config';
 
-function Info({ id, go, data, currency }) {
+function Info({go, data, currency}) {
 
     const style = getComputedStyle(document.body);
 
@@ -30,7 +31,7 @@ function Info({ id, go, data, currency }) {
             headers: {
                 accept: 'application/json',
                 'cache-control': 'no-cache',
-                'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
+                'X-API-KEY': API_KEY
             }
         }
         ).then((res) => {

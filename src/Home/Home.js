@@ -4,8 +4,9 @@ import { convertToPrice, convertToSI } from '../Functions.js';
 import '../global.css';
 import './home.css';
 import Popup from 'reactjs-popup';
+import { API_KEY } from '../config';
 
-function Home({ id, go, theme, currency, showFullName }) {
+function Home({go, currency, showFullName}) {
   const [search, setSearch] = useState("");
   const [searchState, setSearchState] = useState(false);
   const [crypto, setCrypto] = useState([]);
@@ -21,7 +22,7 @@ const updateData = useCallback(() => {
       headers: {
         accept: 'application/json',
         'cache-control': 'no-cache',
-        'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
+        'X-API-KEY': API_KEY
       }
     }
     ).then((res) => {

@@ -4,7 +4,7 @@ import './settings.css';
 import Switch from "react-switch";
 import Popup from 'reactjs-popup';
 
-function Settings({ id, go, fiats, setGlobalCurrency, currency, setGlobalTheme, theme, setGlobalNames, showFullName }) {
+function Settings({go, fiats, setGlobalCurrency, currency, setGlobalTheme, theme, setGlobalNames, showFullName}) {
     const style = getComputedStyle(document.body);
 
     // Поменять тему с темной на светлую и наоборот

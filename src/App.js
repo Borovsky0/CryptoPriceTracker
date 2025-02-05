@@ -5,6 +5,7 @@ import { View } from './Components/View';
 import Home from './Home/Home';
 import Info from './Info/Info';
 import Settings from './Settings/Settings';
+import { API_KEY } from './config';
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
@@ -21,7 +22,7 @@ const App = () => {
 			headers: {
 				accept: 'application/json',
 				'cache-control': 'no-cache',
-				'X-API-KEY': 'QhhE22owPT33jOfdUUWWwONj2pVoxSUc1FAH3k0f8Ak='
+				'X-API-KEY': API_KEY
 			}
 		}
 		).then((res) => {
@@ -56,7 +57,7 @@ const App = () => {
 	return (
 		<div className="app">
 			<View activePanel={activePanel}>
-				<Home id='home' go={go} theme={theme} currency={currency} showFullName={showFullName} />
+				<Home id='home' go={go} currency={currency} showFullName={showFullName} />
 				<Settings 
 					id='settings' 
 					go={go} 
